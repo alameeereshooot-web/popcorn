@@ -78,9 +78,9 @@
         <div class="logo">سينما الأفلام مجاناً</div>
     </header>
 
-    <!-- مشغل الفيديو الرئيسي للموقع مع كود فيلم يشتغل حالياً وثابت بنسبة 100% -->
+    <!-- تم تحديث الرابط هنا إلى السيرفر الجديد vidsrc.sh لمشاهدة فورية وبدون رسائل خطأ -->
     <div class="player-container">
-        <iframe id="video-player" src="https://vidsrc.me" allowfullscreen></iframe>
+        <iframe id="video-player" src="https://vidsrc.sh" allowfullscreen></iframe>
     </div>
 
     <h2 style="margin-top: 40px; border-bottom: 1px solid #1f293d; padding-bottom: 10px;">اختر فيلماً للمشاهدة:</h2>
@@ -106,10 +106,10 @@
     </main>
 
     <script>
-        // تغيير السيرفر إلى vidsrc.me الاكثر استقراراً في الاكواد المباشرة
+        // تم تحديث الدالة لتستخدم السيرفر الجديد vidsrc.sh عند التنقل بين الأفلام
         function changeMovie(imdbId) {
             const player = document.getElementById('video-player');
-            player.src = `https://vidsrc.me{imdbId}`;
+            player.src = `https://vidsrc.sh{imdbId}`;
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     </script>
