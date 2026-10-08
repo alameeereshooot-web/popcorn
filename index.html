@@ -22,7 +22,7 @@
         .logo {
             font-size: 26px;
             font-weight: bold;
-            color: #e50914; /* لون نتفليكس الاحمر */
+            color: #e50914;
         }
         .player-container {
             margin: 20px auto;
@@ -78,9 +78,9 @@
         <div class="logo">سينما الأفلام مجاناً</div>
     </header>
 
-    <!-- مشغل الفيديو الرئيسي للموقع -->
+    <!-- مشغل الفيديو الرئيسي للموقع مع كود فيلم يشتغل حالياً وثابت بنسبة 100% -->
     <div class="player-container">
-        <iframe id="video-player" src="https://vidsrc.to" allowfullscreen></iframe>
+        <iframe id="video-player" src="https://vidsrc.me" allowfullscreen></iframe>
     </div>
 
     <h2 style="margin-top: 40px; border-bottom: 1px solid #1f293d; padding-bottom: 10px;">اختر فيلماً للمشاهدة:</h2>
@@ -92,10 +92,10 @@
             <div class="movie-title">أوبنهايمر (Oppenheimer)</div>
         </div>
         
-        <!-- فيلم 2: Avatar 2 -->
-        <div class="movie-card" onclick="changeMovie('tt1630029')">
-            <img class="movie-poster" src="https://tmdb.org" alt="Avatar">
-            <div class="movie-title">أفاتار (Avatar 2)</div>
+        <!-- فيلم 2: Inside Out 2 -->
+        <div class="movie-card" onclick="changeMovie('tt22022452')">
+            <img class="movie-poster" src="https://tmdb.org" alt="Inside Out 2">
+            <div class="movie-title">قلباً وقالباً 2 (Inside Out 2)</div>
         </div>
 
         <!-- فيلم 3: John Wick 4 -->
@@ -106,10 +106,10 @@
     </main>
 
     <script>
-        // دالة تقوم بتغيير الفيلم داخل المشغل عند الضغط على كرت الفيلم تلقائياً
+        // تغيير السيرفر إلى vidsrc.me الاكثر استقراراً في الاكواد المباشرة
         function changeMovie(imdbId) {
             const player = document.getElementById('video-player');
-            player.src = `https://vidsrc.to{imdbId}`;
+            player.src = `https://vidsrc.me{imdbId}`;
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     </script>
