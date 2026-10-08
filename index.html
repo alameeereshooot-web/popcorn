@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سينما الأفلام المجانية</title>
+    <style>
+        body {
+            background-color: #0b0f19;
+            color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #1f293d;
+        }
+        .logo {
+            font-size: 26px;
+            font-weight: bold;
+            color: #e50914; /* لون نتفليكس الاحمر */
+        }
+        .player-container {
+            margin: 20px auto;
+            max-width: 800px;
+            background: #000;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+        iframe {
+            width: 100%;
+            height: 450px;
+            border: none;
+        }
+        .movies-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 20px;
+            padding-top: 30px;
+        }
+        .movie-card {
+            background-color: #161d2f;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            transition: transform 0.2s, border 0.2s;
+            cursor: pointer;
+            border: 1px solid transparent;
+        }
+        .movie-card:hover {
+            transform: scale(1.05);
+            border: 1px solid #e50914;
+        }
+        .movie-poster {
+            width: 100%;
+            height: 230px;
+            object-fit: cover;
+        }
+        .movie-title {
+            padding: 10px;
+            font-size: 14px;
+            font-weight: bold;
+            text-align: center;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">سينما الأفلام مجاناً</div>
+    </header>
+
+    <!-- مشغل الفيديو الرئيسي للموقع -->
+    <div class="player-container">
+        <iframe id="video-player" src="https://vidsrc.to" allowfullscreen></iframe>
+    </div>
+
+    <h2 style="margin-top: 40px; border-bottom: 1px solid #1f293d; padding-bottom: 10px;">اختر فيلماً للمشاهدة:</h2>
+    
+    <main class="movies-grid">
+        <!-- فيلم 1: Oppenheimer -->
+        <div class="movie-card" onclick="changeMovie('tt15354916')">
+            <img class="movie-poster" src="https://tmdb.org" alt="Oppenheimer">
+            <div class="movie-title">أوبنهايمر (Oppenheimer)</div>
+        </div>
+        
+        <!-- فيلم 2: Avatar 2 -->
+        <div class="movie-card" onclick="changeMovie('tt1630029')">
+            <img class="movie-poster" src="https://tmdb.org" alt="Avatar">
+            <div class="movie-title">أفاتار (Avatar 2)</div>
+        </div>
+
+        <!-- فيلم 3: John Wick 4 -->
+        <div class="movie-card" onclick="changeMovie('tt10366206')">
+            <img class="movie-poster" src="https://tmdb.org" alt="John Wick">
+            <div class="movie-title">جون ويك 4 (John Wick)</div>
+        </div>
+    </main>
+
+    <script>
+        // دالة تقوم بتغيير الفيلم داخل المشغل عند الضغط على كرت الفيلم تلقائياً
+        function changeMovie(imdbId) {
+            const player = document.getElementById('video-player');
+            player.src = `https://vidsrc.to{imdbId}`;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+
+</body>
+</html>
