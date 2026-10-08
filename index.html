@@ -78,9 +78,9 @@
         <div class="logo">سينما الأفلام مجاناً</div>
     </header>
 
-    <!-- تم تحديث الرابط هنا إلى السيرفر الجديد vidsrc.sh لمشاهدة فورية وبدون رسائل خطأ -->
+    <!-- تم التبديل إلى سيرفر embed.su المستقر والمباشر للأفلام -->
     <div class="player-container">
-        <iframe id="video-player" src="https://vidsrc.sh" allowfullscreen></iframe>
+        <iframe id="video-player" src="https://embed.su" allowfullscreen></iframe>
     </div>
 
     <h2 style="margin-top: 40px; border-bottom: 1px solid #1f293d; padding-bottom: 10px;">اختر فيلماً للمشاهدة:</h2>
@@ -106,10 +106,10 @@
     </main>
 
     <script>
-        // تم تحديث الدالة لتستخدم السيرفر الجديد vidsrc.sh عند التنقل بين الأفلام
+        // دالة التنقل بين الأفلام باستخدام السيرفر الجديد والمباشر
         function changeMovie(imdbId) {
             const player = document.getElementById('video-player');
-            player.src = `https://vidsrc.sh{imdbId}`;
+            player.src = `https://embed.su{imdbId}`;
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     </script>
