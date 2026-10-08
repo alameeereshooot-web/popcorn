@@ -24,18 +24,33 @@
             font-weight: bold;
             color: #e50914;
         }
-        .player-container {
-            margin: 20px auto;
-            max-width: 800px;
-            background: #000;
-            border-radius: 8px;
-            overflow: hidden;
+        .action-container {
+            margin: 30px auto;
+            max-width: 600px;
+            text-align: center;
+            background: #161d2f;
+            padding: 30px;
+            border-radius: 12px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            border: 1px solid #1f293d;
         }
-        iframe {
-            width: 100%;
-            height: 450px;
-            border: none;
+        .play-btn {
+            display: inline-block;
+            background-color: #e50914;
+            color: white;
+            padding: 15px 35px;
+            font-size: 18px;
+            font-weight: bold;
+            text-decoration: none;
+            border-radius: 50px;
+            box-shadow: 0 0 15px #e50914;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-top: 15px;
+            cursor: pointer;
+        }
+        .play-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 25px #e50914;
         }
         .movies-grid {
             display: grid;
@@ -70,6 +85,11 @@
             overflow: hidden;
             text-overflow: ellipsis;
         }
+        .current-movie-name {
+            color: #ffc107;
+            font-size: 20px;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -78,38 +98,41 @@
         <div class="logo">سينما الأفلام مجاناً</div>
     </header>
 
-    <!-- تم التبديل إلى سيرفر vidsrc.pro السريع والمباشر بدون صفحات ترحيبية -->
-    <div class="player-container">
-        <iframe id="video-player" src="https://vidsrc.pro" allowfullscreen></iframe>
+    <!-- صندوق التحكم الذكي الجديد لتخطي حظر جيتهب -->
+    <div class="action-container">
+        <p style="font-size: 16px; margin: 0 0 10px 0; color: #b3c4d9;">الفيلم المحدد حالياً جاهز للبث:</p>
+        <div id="movie-display-title" class="current-movie-name">أوبنهايمر (Oppenheimer)</div>
+        <!-- الزر الذكي السحري -->
+        <a id="watch-button" href="https://vidsrc.pro" target="_blank" class="play-btn">اضغط هنا لبدء المشاهدة بجودة عالية 🎬</a>
     </div>
 
     <h2 style="margin-top: 40px; border-bottom: 1px solid #1f293d; padding-bottom: 10px;">اختر فيلماً للمشاهدة:</h2>
     
     <main class="movies-grid">
         <!-- فيلم 1: Oppenheimer -->
-        <div class="movie-card" onclick="changeMovie('tt15354916')">
+        <div class="movie-card" onclick="selectMovie('tt15354916', 'أوبنهايمر (Oppenheimer)')">
             <img class="movie-poster" src="https://tmdb.org" alt="Oppenheimer">
             <div class="movie-title">أوبنهايمر (Oppenheimer)</div>
         </div>
         
         <!-- فيلم 2: Inside Out 2 -->
-        <div class="movie-card" onclick="changeMovie('tt22022452')">
+        <div class="movie-card" onclick="selectMovie('tt22022452', 'قلباً وقالباً 2 (Inside Out 2)')">
             <img class="movie-poster" src="https://tmdb.org" alt="Inside Out 2">
             <div class="movie-title">قلباً وقالباً 2 (Inside Out 2)</div>
         </div>
 
         <!-- فيلم 3: John Wick 4 -->
-        <div class="movie-card" onclick="changeMovie('tt10366206')">
+        <div class="movie-card" onclick="selectMovie('tt10366206', 'جون ويك 4 (John Wick)')">
             <img class="movie-poster" src="https://tmdb.org" alt="John Wick">
             <div class="movie-title">جون ويك 4 (John Wick)</div>
         </div>
     </main>
 
     <script>
-        // الدالة المحدثة للسيرفر الجديد
-        function changeMovie(imdbId) {
-            const player = document.getElementById('video-player');
-            player.src = `https://vidsrc.pro{imdbId}`;
+        // الدالة الذكية لتغيير رابط الزر واسم الفيلم المختار فوراً عند الضغط
+        function selectMovie(imdbId, movieName) {
+            document.getElementById('movie-display-title').innerText = movieName;
+            document.getElementById('watch-button').href = `https://vidsrc.pro{imdbId}`;
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     </script>
