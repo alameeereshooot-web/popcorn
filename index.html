@@ -3,195 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>سينما تو بلاس | أحدث الأفلام والمسلسلات مجاناً</title>
+    <title>سينما تو بلاس</title>
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background-color: #0f0f15; color: #fff; padding: 20px; }
-        
-        header { text-align: center; margin-bottom: 30px; }
-        header h1 { color: #e50914; font-size: 2.5rem; margin-bottom: 10px; font-weight: 800; }
-        header p { color: #aaa; font-size: 1rem; }
-        
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
+        body { background-color: #0f0f15; color: #fff; padding: 20px; text-align: center; }
+        header h1 { color: #e50914; font-size: 2.5rem; margin-bottom: 10px; }
         .search-container { max-width: 600px; margin: 0 auto 30px auto; display: flex; gap: 10px; }
-        .search-container input { flex: 1; padding: 14px 20px; border: 1px solid #2a2a40; background: #1f1f2e; color: white; border-radius: 30px; font-size: 16px; outline: none; transition: border-color 0.3s; }
-        .search-container input:focus { border-color: #e50914; }
-        .search-container button { padding: 0 30px; background: #e50914; border: none; color: white; border-radius: 30px; font-weight: bold; font-size: 16px; cursor: pointer; transition: background 0.2s; }
-        .search-container button:hover { background: #b80710; }
-
-        .player-container { max-width: 900px; margin: 0 auto 40px auto; display: none; background: #14141f; border: 1px solid #2a2a40; border-radius: 12px; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.7); }
-        .player-container iframe { width: 100%; aspect-ratio: 16/9; border: 0; display: block; }
-        .close-btn { background: #e50914; color: white; border: none; padding: 14px; cursor: pointer; width: 100%; font-weight: bold; font-size: 16px; transition: background 0.2s; }
-        .close-btn:hover { background: #b80710; }
+        .search-container input { flex: 1; padding: 14px 20px; border: 1px solid #2a2a40; background: #1f1f2e; color: white; border-radius: 30px; outline: none; }
+        .search-container button { padding: 0 30px; background: #e50914; border: none; color: white; border-radius: 30px; font-weight: bold; cursor: pointer; }
+        .movies-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 25px; margin-top: 20px; }
         
-        .episode-controls { padding: 20px; display: none; background: #1f1f2e; justify-content: center; gap: 20px; align-items: center; border-top: 1px solid #2a2a40; flex-wrap: wrap; }
-        .episode-controls label { font-weight: bold; font-size: 15px; color: #ddd; }
-        .episode-controls input { width: 80px; padding: 8px 12px; background: #0f0f15; border: 1px solid #444; color: white; border-radius: 6px; text-align: center; font-size: 16px; outline: none; }
-        .episode-controls input:focus { border-color: #e50914; }
-
-        .section-title { margin-bottom: 25px; font-size: 1.6rem; border-right: 5px solid #e50914; padding-right: 12px; font-weight: 700; }
-        .movies-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 25px; }
-        .movie-card { background: #1f1f2e; border-radius: 10px; overflow: hidden; cursor: pointer; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); position: relative; border: 1px solid #2a2a40; }
-        .movie-card:hover { transform: translateY(-8px); border-color: #e50914; box-shadow: 0 10px 20px rgba(229, 9, 20, 0.25); }
-        .movie-card img { width: 100%; height: 270px; object-fit: cover; display: block; background-color: #14141f; }
-        .movie-info { padding: 14px; text-align: center; }
-        .movie-title { font-weight: 600; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #fff; }
-        
-        .badge { position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.85); color: #ffbd03; padding: 4px 8px; border-radius: 6px; font-size: 12px; font-weight: bold; z-index: 2; }
-        .type-badge { position: absolute; top: 10px; left: 10px; background: #e50914; color: white; padding: 4px 8px; border-radius: 6px; font-size: 11px; font-weight: bold; z-index: 2; }
+        /* صندوق فحص المشاكل */
+        .debug-box { max-width: 600px; margin: 40px auto 0 auto; padding: 15px; background: #222; border: 1px dashed #555; border-radius: 8px; text-align: left; font-family: monospace; color: #a9ffb7; font-size: 13px; direction: ltr; }
     </style>
 </head>
 <body>
 
     <header>
         <h1>سينما تو بلاس</h1>
-        <p>شاهد أحدث الأفلام والمسلسلات العالمية مجاناً وبأعلى جودة</p>
+        <p>شاهد أحدث الأفلام والمسلسلات مجاناً</p>
     </header>
 
     <div class="search-container">
-        <input type="text" id="searchInput" placeholder="ابحث عن فيلم أو مسلسل بالاسم هنا...">
+        <input type="text" id="searchInput" placeholder="ابحث هنا...">
         <button onclick="searchMedia()">بحث</button>
     </div>
 
-    <div class="player-container" id="playerContainer">
-        <button class="close-btn" onclick="closePlayer()">إغلاق شاشة العرض والعودة للمكتبة ✕</button>
-        <div id="videoPlatform"></div>
-        
-        <div class="episode-controls" id="episodeControls">
-            <div>
-                <label for="seasonInput">الموسم: </label>
-                <input type="number" id="seasonInput" value="1" min="1" onchange="updateEpisode()">
-            </div>
-            <div>
-                <label for="episodeInput">الحلقة: </label>
-                <input type="number" id="episodeInput" value="1" min="1" onchange="updateEpisode()">
-            </div>
-        </div>
+    <h2 id="gridTitle">🔥 الأكثر رواجاً:</h2>
+    <div class="movies-grid" id="moviesGrid">
+        <p id="loadingText" style="grid-column: 1/-1; color:#ffbd03;">جاري الاتصال بقاعدة البيانات، يرجى الانتظار...</p>
     </div>
 
-    <h2 class="section-title" id="gridTitle">🔥 الأكثر رواجاً هذا الأسبوع:</h2>
-    <div class="movies-grid" id="moviesGrid"></div>
+    <!-- صندوق كشف الأعطال الزائد -->
+    <div class="debug-box" id="debugBox">إشارات الفحص: جاري بدء النظام...</div>
 
     <script>
         const TMDB_API_KEY = 'c7f20018c3cfc5d46cdc6f1defb13d3d'; 
-        
-        let currentMediaId = null;
-        let currentMediaType = null;
-
+        const debugBox = document.getElementById('debugBox');
         const moviesGrid = document.getElementById('moviesGrid');
-        const playerContainer = document.getElementById('playerContainer');
-        const videoPlatform = document.getElementById('videoPlatform');
-        const episodeControls = document.getElementById('episodeControls');
-        const gridTitle = document.getElementById('gridTitle');
-        const searchInput = document.getElementById('searchInput');
+        const loadingText = document.getElementById('loadingText');
 
-        async function fetchTrendingMedia() {
+        function logDebug(msg) {
+            debugBox.innerHTML += "<br>> " + msg;
+        }
+
+        async function testConnection() {
+            logDebug("Starting API call to TMDB...");
             try {
-                // الروابط الرسمية المصححة لواجهة البرمجة (api.themoviedb.org/3)
                 const url = `https://themoviedb.org{TMDB_API_KEY}&language=ar`;
+                logDebug("Request URL built successfully.");
+                
                 const response = await fetch(url);
+                logDebug(`Server Response Received. Status Code: ${response.status} (${response.statusText})`);
+                
+                if (!response.ok) {
+                    if(response.status === 401) {
+                        logDebug("ERROR: المفتاح غير مفعل بعد أو خاطئ (Invalid API Key). يرجى الانتظار لتفعيله من TMDB.");
+                        loadingText.innerText = "خطأ: مفتاح الـ API الخاص بك غير نشط حالياً، يرجى المحاولة بعد قليل.";
+                    } else {
+                        logDebug(`ERROR: Failed with code ${response.status}`);
+                    }
+                    return;
+                }
+
                 const data = await response.json();
-                displayMedia(data.results);
+                logDebug(`Data parsed. Found ${data.results.length} items.`);
+                
+                if(data.results.length > 0) {
+                    loadingText.style.display = 'none';
+                    moviesGrid.innerHTML = '';
+                    data.results.forEach(item => {
+                        const title = item.title || item.name;
+                        if(!item.poster_path) return;
+                        moviesGrid.innerHTML += `
+                            <div style="background:#1f1f2e; padding:10px; border-radius:8px;">
+                                <img src="https://tmdb.org{item.poster_path}" style="width:100%; height:250px; object-fit:cover; border-radius:6px;">
+                                <p style="font-size:13px; margin-top:8px; font-weight:bold;">${title}</p>
+                            </div>
+                        `;
+                    });
+                    logDebug("SUCCESS: الأفلام تم عرضها على الشاشة بنجاح!");
+                }
+
             } catch (error) {
-                console.error("خطأ:", error);
-                moviesGrid.innerHTML = "<p style='grid-column: 1/-1; text-align:center; color:#ffbd03;'>جاري الاتصال بقاعدة البيانات، يرجى تحديث الصفحة...</p>";
+                logDebug(`CRITICAL ERROR: ${error.message}`);
+                logDebug("نصيحة: هناك حظر شبكة أو حماية متصفح تمنع الاتصال بـ TMDB من جهازك.");
+                loadingText.innerText = "فشل الاتصال بسبب قيود الحماية في جهازك أو شبكتك.";
             }
         }
 
-        async function searchMedia() {
-            const query = searchInput.value.trim();
-            if(!query) return;
-            
-            try {
-                const url = `https://themoviedb.org{TMDB_API_KEY}&language=ar&query=${encodeURIComponent(query)}`;
-                const response = await fetch(url);
-                const data = await response.json();
-                gridTitle.innerText = `🔍 نتائج البحث عن: ${query}`;
-                displayMedia(data.results);
-            } catch (error) {
-                console.error("خطأ:", error);
-            }
-        }
-
-        searchInput.addEventListener("keyup", function(event) {
-            if (event.key === "Enter") { searchMedia(); }
-        });
-
-        function displayMedia(items) {
-            moviesGrid.innerHTML = '';
-            let validCardsCount = 0;
-            
-            items.forEach(item => {
-                const title = item.title || item.name;
-                const mediaType = item.media_type || (item.title ? 'movie' : 'tv');
-                
-                if (!item.poster_path || !title || mediaType === 'person') return;
-                
-                validCardsCount++;
-                const card = document.createElement('div');
-                card.className = 'movie-card';
-                
-                const typeLabel = mediaType === 'movie' ? 'فيلم' : 'مسلسل';
-                const ratingValue = item.vote_average ? item.vote_average.toFixed(1) : '0.0';
-
-                card.innerHTML = `
-                    <div class="badge">⭐ ${ratingValue}</div>
-                    <div class="type-badge">${typeLabel}</div>
-                    <img src="https://tmdb.org{item.poster_path}" alt="${title}">
-                    <div class="movie-info">
-                        <div class="movie-title">${title}</div>
-                    </div>
-                `;
-
-                card.onclick = () => startPlay(item.id, mediaType);
-                moviesGrid.appendChild(card);
-            });
-
-            if(validCardsCount === 0) {
-                moviesGrid.innerHTML = "<p style='grid-column: 1/-1; text-align:center; color: #aaa;'>لا توجد بيانات متاحة حالياً.</p>";
-            }
-        }
-
-        function startPlay(id, type) {
-            currentMediaId = id;
-            currentMediaType = type;
-            
-            document.getElementById('seasonInput').value = 1;
-            document.getElementById('episodeInput').value = 1;
-
-            if (type === 'tv') {
-                episodeControls.style.display = 'flex';
-                loadEmbedUrl(id, 'tv', 1, 1);
-            } else {
-                episodeControls.style.display = 'none';
-                loadEmbedUrl(id, 'movie');
-            }
-
-            playerContainer.style.display = 'block';
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        function loadEmbedUrl(id, type, season = 1, episode = 1) {
-            let finalUrl = '';
-            if (type === 'movie') {
-                finalUrl = `https://vidsrc.party{id}`;
-            } else {
-                finalUrl = `https://vidsrc.party{id}/${season}/${episode}`;
-            }
-            videoPlatform.innerHTML = `<iframe src="${finalUrl}" allowfullscreen allow="autoplay; fullscreen; picture-in-picture; encrypted-media"></iframe>`;
-        }
-
-        function updateEpisode() {
-            const season = document.getElementById('seasonInput').value;
-            const episode = document.getElementById('episodeInput').value;
-            loadEmbedUrl(currentMediaId, 'tv', season, episode);
-        }
-
-        function closePlayer() {
-            playerContainer.style.display = 'none';
-            videoPlatform.innerHTML = '';
-        }
-
-        window.onload = fetchTrendingMedia;
+        window.onload = testConnection;
     </script>
 </body>
 </html>
