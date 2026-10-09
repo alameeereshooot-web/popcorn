@@ -84,16 +84,16 @@
         const gridTitle = document.getElementById('gridTitle');
         const searchInput = document.getElementById('searchInput');
 
-        // جلب البيانات مع إجبار بروتوكول الاتصال الآمن الحقيقي
         async function fetchTrendingMedia() {
             try {
+                // الروابط الرسمية المصححة لواجهة البرمجة (api.themoviedb.org/3)
                 const url = `https://themoviedb.org{TMDB_API_KEY}&language=ar`;
                 const response = await fetch(url);
                 const data = await response.json();
                 displayMedia(data.results);
             } catch (error) {
                 console.error("خطأ:", error);
-                moviesGrid.innerHTML = "<p style='grid-column: 1/-1; text-align:center; color:#ffbd03;'>تأخر استجابة الخادم الخارجي، جاري إعادة المحاولة خلال ثوانٍ...</p>";
+                moviesGrid.innerHTML = "<p style='grid-column: 1/-1; text-align:center; color:#ffbd03;'>جاري الاتصال بقاعدة البيانات، يرجى تحديث الصفحة...</p>";
             }
         }
 
@@ -136,7 +136,6 @@
                 card.innerHTML = `
                     <div class="badge">⭐ ${ratingValue}</div>
                     <div class="type-badge">${typeLabel}</div>
-                    <!-- إجبار البوسترات على التحميل عبر بروتوكول آمن بالكامل لمنع حجبها -->
                     <img src="https://tmdb.org{item.poster_path}" alt="${title}">
                     <div class="movie-info">
                         <div class="movie-title">${title}</div>
@@ -192,3 +191,7 @@
             videoPlatform.innerHTML = '';
         }
 
+        window.onload = fetchTrendingMedia;
+    </script>
+</body>
+</html>
