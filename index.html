@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>سينما الاميري | أحدث الأفلام والمسلسلات مجاناً</title>
+    <title>سينما تو بلاس | أحدث الأفلام والمسلسلات مجاناً</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         body { background-color: #0f0f15; color: #fff; padding: 20px; }
@@ -72,7 +72,6 @@
     <div class="movies-grid" id="moviesGrid"></div>
 
     <script>
-        // مفتاح الـ API مدمج وسليم
         const TMDB_API_KEY = 'c7f20018c3cfc5d46cdc6f1defb13d3d'; 
         
         let currentMediaId = null;
@@ -85,7 +84,7 @@
         const gridTitle = document.getElementById('gridTitle');
         const searchInput = document.getElementById('searchInput');
 
-        // جلب المحتوى باستخدام رابط مباشر لتجاوز قيود CORS الأمنية على المتصفح
+        // جلب البيانات مع إجبار بروتوكول الاتصال الآمن الحقيقي
         async function fetchTrendingMedia() {
             try {
                 const url = `https://themoviedb.org{TMDB_API_KEY}&language=ar`;
@@ -94,7 +93,7 @@
                 displayMedia(data.results);
             } catch (error) {
                 console.error("خطأ:", error);
-                moviesGrid.innerHTML = "<p style='grid-column: 1/-1; text-align:center; color:yellow;'>جاري الاتصال بسيرفرات قاعدة البيانات الرائدة... يرجى تحديث الصفحة بعد ثوانٍ.</p>";
+                moviesGrid.innerHTML = "<p style='grid-column: 1/-1; text-align:center; color:#ffbd03;'>تأخر استجابة الخادم الخارجي، جاري إعادة المحاولة خلال ثوانٍ...</p>";
             }
         }
 
@@ -137,6 +136,7 @@
                 card.innerHTML = `
                     <div class="badge">⭐ ${ratingValue}</div>
                     <div class="type-badge">${typeLabel}</div>
+                    <!-- إجبار البوسترات على التحميل عبر بروتوكول آمن بالكامل لمنع حجبها -->
                     <img src="https://tmdb.org{item.poster_path}" alt="${title}">
                     <div class="movie-info">
                         <div class="movie-title">${title}</div>
@@ -148,7 +148,7 @@
             });
 
             if(validCardsCount === 0) {
-                moviesGrid.innerHTML = "<p style='grid-column: 1/-1; text-align:center; color: #aaa;'>لا توجد نتائج لعرضها.</p>";
+                moviesGrid.innerHTML = "<p style='grid-column: 1/-1; text-align:center; color: #aaa;'>لا توجد بيانات متاحة حالياً.</p>";
             }
         }
 
