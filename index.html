@@ -3,139 +3,188 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>سينما الأفلام المجانية</title>
+    <title>سينما تو بلاس | أحدث الأفلام والمسلسلات مجاناً</title>
     <style>
-        body {
-            background-color: #0b0f19;
-            color: #ffffff;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 20px;
-        }
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-bottom: 20px;
-            border-bottom: 2px solid #1f293d;
-        }
-        .logo {
-            font-size: 26px;
-            font-weight: bold;
-            color: #e50914;
-        }
-        .action-container {
-            margin: 30px auto;
-            max-width: 600px;
-            text-align: center;
-            background: #161d2f;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-            border: 1px solid #1f293d;
-        }
-        .play-btn {
-            display: inline-block;
-            background-color: #e50914;
-            color: white;
-            padding: 15px 35px;
-            font-size: 18px;
-            font-weight: bold;
-            text-decoration: none;
-            border-radius: 50px;
-            box-shadow: 0 0 15px #e50914;
-            transition: transform 0.2s, box-shadow 0.2s;
-            margin-top: 15px;
-            cursor: pointer;
-        }
-        .play-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 25px #e50914;
-        }
-        .movies-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-            gap: 20px;
-            padding-top: 30px;
-        }
-        .movie-card {
-            background-color: #161d2f;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-            transition: transform 0.2s, border 0.2s;
-            cursor: pointer;
-            border: 1px solid transparent;
-        }
-        .movie-card:hover {
-            transform: scale(1.05);
-            border: 1px solid #e50914;
-        }
-        .movie-poster {
-            width: 100%;
-            height: 230px;
-            object-fit: cover;
-        }
-        .movie-title {
-            padding: 10px;
-            font-size: 14px;
-            font-weight: bold;
-            text-align: center;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        .current-movie-name {
-            color: #ffc107;
-            font-size: 20px;
-            font-weight: bold;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: #0f0f15; color: #fff; padding: 20px; }
+        
+        header { text-align: center; margin-bottom: 30px; }
+        header h1 { color: #e50914; font-size: 2.5rem; margin-bottom: 10px; font-weight: 800; }
+        header p { color: #aaa; font-size: 1rem; }
+        
+        /* شريط البحث الذكي */
+        .search-container { max-width: 600px; margin: 0 auto 30px auto; display: flex; gap: 10px; }
+        .search-container input { flex: 1; padding: 14px 20px; border: 1px solid #2a2a40; background: #1f1f2e; color: white; border-radius: 30px; font-size: 16px; outline: none; transition: border-color 0.3s; }
+        .search-container input:focus { border-color: #e50914; }
+        .search-container button { padding: 0 30px; background: #e50914; border: none; color: white; border-radius: 30px; font-weight: bold; font-size: 16px; cursor: pointer; transition: background 0.2s; }
+        .search-container button:hover { background: #b80710; }
+
+        /* مشغل الفيديو والتحكم في الحلقات */
+        .player-container { max-width: 900px; margin: 0 auto 40px auto; display: none; background: #14141f; border: 1px solid #2a2a40; border-radius: 12px; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.7); }
+        .player-container iframe { width: 100%; aspect-ratio: 16/9; border: 0; display: block; }
+        .close-btn { background: #e50914; color: white; border: none; padding: 14px; cursor: pointer; width: 100%; font-weight: bold; font-size: 16px; transition: background 0.2s; }
+        .close-btn:hover { background: #b80710; }
+        
+        /* أدوات التحكم في حلقات المسلسلات */
+        .episode-controls { padding: 20px; display: none; background: #1f1f2e; justify-content: center; gap: 20px; align-items: center; border-top: 1px solid #2a2a40; flex-wrap: wrap; }
+        .episode-controls label { font-weight: bold; font-size: 15px; color: #ddd; }
+        .episode-controls input { width: 80px; padding: 8px 12px; background: #0f0f15; border: 1px solid #444; color: white; border-radius: 6px; text-align: center; font-size: 16px; outline: none; }
+        .episode-controls input:focus { border-color: #e50914; }
+
+        /* شبكة العرض والبطاقات */
+        .section-title { margin-bottom: 25px; font-size: 1.6rem; border-right: 5px solid #e50914; padding-right: 12px; font-weight: 700; }
+        .movies-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 25px; }
+        .movie-card { background: #1f1f2e; border-radius: 10px; overflow: hidden; cursor: pointer; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); position: relative; border: 1px solid #2a2a40; }
+        .movie-card:hover { transform: translateY(-8px); border-color: #e50914; box-shadow: 0 10px 20px rgba(229, 9, 20, 0.25); }
+        .movie-card img { width: 100%; height: 270px; object-fit: cover; display: block; background-color: #14141f; }
+        .movie-info { padding: 14px; text-align: center; }
+        .movie-title { font-weight: 600; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #fff; }
+        
+        /* شارات التقييم والنوع */
+        .badge { position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.85); color: #ffbd03; padding: 4px 8px; border-radius: 6px; font-size: 12px; font-weight: bold; z-index: 2; }
+        .type-badge { position: absolute; top: 10px; left: 10px; background: #e50914; color: white; padding: 4px 8px; border-radius: 6px; font-size: 11px; font-weight: bold; z-index: 2; }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="logo">سينما الأفلام مجاناً</div>
+        <h1>سينما تو بلاس</h1>
+        <p>شاهد أحدث الأفلام والمسلسلات العالمية مجاناً وبأعلى جودة</p>
     </header>
 
-    <!-- صندوق التحكم الذكي الجديد لتخطي حظر جيتهب -->
-    <div class="action-container">
-        <p style="font-size: 16px; margin: 0 0 10px 0; color: #b3c4d9;">الفيلم المحدد حالياً جاهز للبث:</p>
-        <div id="movie-display-title" class="current-movie-name">أوبنهايمر (Oppenheimer)</div>
-        <!-- الزر الذكي السحري -->
-        <a id="watch-button" href="https://vidsrc.pro" target="_blank" class="play-btn">اضغط هنا لبدء المشاهدة بجودة عالية 🎬</a>
+    <!-- شريط البحث الذكي -->
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="ابحث عن فيلم أو مسلسل بالاسم هنا...">
+        <button onclick="searchMedia()">بحث</button>
     </div>
 
-    <h2 style="margin-top: 40px; border-bottom: 1px solid #1f293d; padding-bottom: 10px;">اختر فيلماً للمشاهدة:</h2>
-    
-    <main class="movies-grid">
-        <!-- فيلم 1: Oppenheimer -->
-        <div class="movie-card" onclick="selectMovie('tt15354916', 'أوبنهايمر (Oppenheimer)')">
-            <img class="movie-poster" src="https://tmdb.org" alt="Oppenheimer">
-            <div class="movie-title">أوبنهايمر (Oppenheimer)</div>
-        </div>
+    <!-- حاوية مشغل الفيديو -->
+    <div class="player-container" id="playerContainer">
+        <button class="close-btn" onclick="closePlayer()">إغلاق شاشة العرض والعودة للمكتبة ✕</button>
+        <div id="videoPlatform"></div>
         
-        <!-- فيلم 2: Inside Out 2 -->
-        <div class="movie-card" onclick="selectMovie('tt22022452', 'قلباً وقالباً 2 (Inside Out 2)')">
-            <img class="movie-poster" src="https://tmdb.org" alt="Inside Out 2">
-            <div class="movie-title">قلباً وقالباً 2 (Inside Out 2)</div>
+        <!-- لوحة الحلقات والمواسم للمسلسلات -->
+        <div class="episode-controls" id="episodeControls">
+            <div>
+                <label for="seasonInput">الموسم: </label>
+                <input type="number" id="seasonInput" value="1" min="1" onchange="updateEpisode()">
+            </div>
+            <div>
+                <label for="episodeInput">الحلقة: </label>
+                <input type="number" id="episodeInput" value="1" min="1" onchange="updateEpisode()">
+            </div>
         </div>
+    </div>
 
-        <!-- فيلم 3: John Wick 4 -->
-        <div class="movie-card" onclick="selectMovie('tt10366206', 'جون ويك 4 (John Wick)')">
-            <img class="movie-poster" src="https://tmdb.org" alt="John Wick">
-            <div class="movie-title">جون ويك 4 (John Wick)</div>
-        </div>
-    </main>
+    <!-- شبكة عرض المحتوى المحدث تلقائياً -->
+    <h2 class="section-title" id="gridTitle">🔥 الأكثر رواجاً هذا الأسبوع:</h2>
+    <div class="movies-grid" id="moviesGrid"></div>
 
     <script>
-        // الدالة الذكية لتغيير رابط الزر واسم الفيلم المختار فوراً عند الضغط
-        function selectMovie(imdbId, movieName) {
-            document.getElementById('movie-display-title').innerText = movieName;
-            document.getElementById('watch-button').href = `https://vidsrc.pro{imdbId}`;
+        // مفتاح الـ API الخاص بك مدمج وجاهز للتشغيل التلقائي
+        const TMDB_API_KEY = 'c7f20018c3cfc5d46cdc6f1defb13d3d'; 
+        
+        let currentMediaId = null;
+        let currentMediaType = null;
+
+        const moviesGrid = document.getElementById('moviesGrid');
+        const playerContainer = document.getElementById('playerContainer');
+        const videoPlatform = document.getElementById('videoPlatform');
+        const episodeControls = document.getElementById('episodeControls');
+        const gridTitle = document.getElementById('gridTitle');
+        const searchInput = document.getElementById('searchInput');
+
+        // جلب المحتوى الشائع تلقائياً فور فتح الموقع
+        async function fetchTrendingMedia() {
+            try {
+                const response = await fetch(`https://themoviedb.org{TMDB_API_KEY}&language=ar`);
+                const data = await response.json();
+                displayMedia(data.results);
+            } catch (error) {
+                console.error("خطأ في الاتصال بقاعدة البيانات:", error);
+                moviesGrid.innerHTML = "<p style='grid-column: 1/-1; text-align:center;'>حدث خطأ أثناء تحميل المحتوى، يرجى المحاولة لاحقاً.</p>";
+            }
+        }
+
+        // البحث الديناميكي بالاسم
+        async function searchMedia() {
+            const query = searchInput.value.trim();
+            if(!query) return;
+            
+            try {
+                const response = await fetch(`https://themoviedb.org{TMDB_API_KEY}&language=ar&query=${encodeURIComponent(query)}`);
+                const data = await response.json();
+                gridTitle.innerText = `🔍 نتائج البحث عن: ${query}`;
+                displayMedia(data.results);
+            } catch (error) {
+                console.error("خطأ أثناء البحث:", error);
+            }
+        }
+
+        // تفعيل زر البحث عند الضغط على Enter في لوحة المفاتيح
+        searchInput.addEventListener("keyup", function(event) {
+            if (event.key === "Enter") { searchMedia(); }
+        });
+
+        // بناء وعرض بطاقات الأفلام والمسلسلات
+        function displayMedia(items) {
+            moviesGrid.innerHTML = '';
+            let validCardsCount = 0;
+            
+            items.forEach(item => {
+                const title = item.title || item.name;
+                const mediaType = item.media_type || (item.title ? 'movie' : 'tv');
+                
+                // تخطي العناصر التي لا تملك بوستر أو أسماء أو إذا كانت تشير لأسماء ممثلين بدلاً من أعمال
+                if (!item.poster_path || !title || mediaType === 'person') return;
+                
+                validCardsCount++;
+                const card = document.createElement('div');
+                card.className = 'movie-card';
+                
+                const typeLabel = mediaType === 'movie' ? 'فيلم' : 'مسلسل';
+                const ratingValue = item.vote_average ? item.vote_average.toFixed(1) : '0.0';
+
+                card.innerHTML = `
+                    <div class="badge">⭐ ${ratingValue}</div>
+                    <div class="type-badge">${typeLabel}</div>
+                    <img src="https://tmdb.org{item.poster_path}" alt="${title}" loading="lazy">
+                    <div class="movie-info">
+                        <div class="movie-title">${title}</div>
+                    </div>
+                `;
+
+                card.onclick = () => startPlay(item.id, mediaType);
+                moviesGrid.appendChild(card);
+            });
+
+            if(validCardsCount === 0) {
+                moviesGrid.innerHTML = "<p style='grid-column: 1/-1; text-align:center; color: #aaa; padding: 4px;'>عذراً، لا توجد نتائج تطابق بحثك.</p>";
+            }
+        }
+
+        // تجهيز وعرض مشغل الفيديو للعمل
+        function startPlay(id, type) {
+            currentMediaId = id;
+            currentMediaType = type;
+            
+            // تصفير خيارات الحلقات افتراضياً لتجنب مشاكل الانتقال بين المسلسلات
+            document.getElementById('seasonInput').value = 1;
+            document.getElementById('episodeInput').value = 1;
+
+            if (type === 'tv') {
+                episodeControls.style.display = 'flex';
+                loadEmbedUrl(id, 'tv', 1, 1);
+            } else {
+                episodeControls.style.display = 'none';
+                loadEmbedUrl(id, 'movie');
+            }
+
+            playerContainer.style.display = 'block';
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
-    </script>
 
-</body>
-</html>
+        // إدراج مشغل vidsrc.party المناسب ديناميكياً
+        function loadEmbedUrl(id, type, season = 1, episode = 1) {
+            let finalUrl = '';
+            if (type === 'movie') {
