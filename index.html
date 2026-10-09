@@ -41,14 +41,14 @@
             background-color: #000000;
         }
 
+        /* شريط موحد يحتوي على السيرفرات + TV + الجودة + الترجمة + الصوت */
         .controls-bar {
             background-color: #0a0a0a;
             padding: 10px 14px;
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            border-bottom: 1px solid #1f1f1f;
             gap: 8px;
+            border-bottom: 1px solid #1f1f1f;
             flex-wrap: wrap;
         }
 
@@ -62,7 +62,7 @@
             background: #1e1e24;
             color: #aaa;
             border: 1px solid #333;
-            padding: 6px 12px;
+            padding: 7px 12px;
             border-radius: 6px;
             font-size: 13px;
             font-weight: 600;
@@ -84,7 +84,7 @@
             background: linear-gradient(135deg, #00c853, #009624);
             color: #ffffff !important;
             border: none;
-            padding: 6px 14px;
+            padding: 7px 12px;
             border-radius: 6px;
             font-size: 13px;
             font-weight: bold;
@@ -93,6 +93,83 @@
             gap: 6px;
             text-decoration: none;
             cursor: pointer;
+            line-height: 1;
+        }
+
+        /* أزرار منسدلة مصغرة للأيقونات */
+        .icon-dropdown {
+            position: relative;
+            display: inline-flex;
+        }
+
+        .icon-btn {
+            background: #1e1e24;
+            color: #ccc;
+            border: 1px solid #333;
+            padding: 7px 10px;
+            border-radius: 6px;
+            font-size: 14px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            min-width: 38px;
+        }
+
+        .icon-btn:hover,
+        .icon-btn.active {
+            background: #e50914;
+            color: #fff;
+            border-color: #e50914;
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: calc(100% + 4px);
+            right: 0;
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 8px;
+            min-width: 140px;
+            z-index: 1500;
+            overflow: hidden;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.7);
+        }
+
+        .dropdown-menu.show {
+            display: block;
+            animation: fadeIn 0.15s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .dropdown-item {
+            display: block;
+            width: 100%;
+            background: transparent;
+            color: #ddd;
+            border: none;
+            padding: 9px 14px;
+            font-size: 13px;
+            text-align: right;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .dropdown-item:hover {
+            background: #2a2a32;
+            color: #fff;
+        }
+
+        .dropdown-item.active {
+            background: #e50914;
+            color: #fff;
+            font-weight: bold;
         }
 
         .now-playing-title {
@@ -102,7 +179,8 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            max-width: 38%;
+            flex: 1;
+            min-width: 100px;
         }
 
         .search-container {
@@ -248,70 +326,9 @@
             background: #222;
             color: #fff;
             border: 1px solid #333;
-            padding: 4px 8px;
+            padding: 5px 10px;
             border-radius: 4px;
             font-size: 12px;
-        }
-
-        /* شريط خيارات الجودة والترجمة - قوائم منسدلة سلسة */
-        .extra-bar {
-            display: flex;
-            gap: 8px;
-            padding: 8px 14px;
-            background: #0a0a0a;
-            border-bottom: 1px solid #1f1f1f;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-
-        .select-group {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            background: #141414;
-            border: 1px solid #262626;
-            border-radius: 8px;
-            padding: 4px 10px;
-            transition: border-color 0.2s;
-        }
-
-        .select-group:focus-within {
-            border-color: #e50914;
-        }
-
-        .select-group i {
-            color: #e50914;
-            font-size: 13px;
-        }
-
-        .select-group label {
-            font-size: 12px;
-            color: #888;
-            font-weight: 600;
-        }
-
-        .styled-select {
-            background: transparent;
-            color: #fff;
-            border: none;
-            padding: 6px 4px;
-            font-size: 13px;
-            font-weight: 600;
-            outline: none;
-            cursor: pointer;
-            appearance: none;
-            -webkit-appearance: none;
-            padding-left: 18px;
-            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23e50914' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
-            background-repeat: no-repeat;
-            background-position: left center;
-            background-size: 12px;
-        }
-
-        .styled-select option {
-            background: #1a1a1a;
-            color: #fff;
-            padding: 8px;
         }
 
         .loading-spinner {
@@ -341,43 +358,61 @@
         </iframe>
     </div>
 
+    <!-- شريط التحكم الموحد: السيرفرات + TV + الجودة + الترجمة + الصوت -->
     <div class="controls-bar">
         <div class="server-buttons">
             <button class="btn-server active" id="srv1" onclick="switchServer(1)">سيرفر 1</button>
             <button class="btn-server" id="srv2" onclick="switchServer(2)">سيرفر 2</button>
             <button class="btn-server" id="srv3" onclick="switchServer(3)">سيرفر 3</button>
             <button class="btn-server" id="srv4" onclick="switchServer(4)">سيرفر 4</button>
-            <button class="btn-server" id="srv5" onclick="switchServer(5)">سيرفر 5</button>
         </div>
-        <div class="now-playing-title" id="now-playing">اختر فيلماً للمشاهدة</div>
+
         <a href="https://alameeereshooot-web.github.io/i/" class="btn-tv" title="الانتقال إلى البث المباشر">
             <i class="fas fa-tv"></i> Tv
         </a>
-    </div>
 
-    <!-- شريط خيارات الجودة والترجمة - قوائم منسدلة -->
-    <div class="extra-bar">
-        <div class="select-group">
-            <i class="fas fa-cog"></i>
-            <label>الجودة:</label>
-            <select class="styled-select" id="quality-select" onchange="changeQuality(this.value)">
-                <option value="1080p" selected>1080p - Full HD</option>
-                <option value="720p">720p - HD</option>
-                <option value="480p">480p - SD</option>
-                <option value="360p">360p - Low</option>
-            </select>
+        <!-- زر الجودة -->
+        <div class="icon-dropdown">
+            <button class="icon-btn" onclick="toggleDropdown(event, 'quality-menu')" title="الجودة">
+                <i class="fas fa-cog"></i>
+            </button>
+            <div class="dropdown-menu" id="quality-menu">
+                <button class="dropdown-item active" onclick="changeQuality('1080p', this)">1080p - Full HD</button>
+                <button class="dropdown-item" onclick="changeQuality('720p', this)">720p - HD</button>
+                <button class="dropdown-item" onclick="changeQuality('480p', this)">480p - SD</button>
+                <button class="dropdown-item" onclick="changeQuality('360p', this)">360p - Low</button>
+            </div>
         </div>
-        <div class="select-group">
-            <i class="fas fa-closed-captioning"></i>
-            <label>الترجمة:</label>
-            <select class="styled-select" id="subtitle-select" onchange="changeSubtitle(this.value)">
-                <option value="ar" selected>🇸🇦 العربية</option>
-                <option value="en">🇬🇧 English</option>
-                <option value="fr">🇫🇷 Français</option>
-                <option value="es">🇪🇸 Español</option>
-                <option value="none">بدون ترجمة</option>
-            </select>
+
+        <!-- زر الترجمة -->
+        <div class="icon-dropdown">
+            <button class="icon-btn" onclick="toggleDropdown(event, 'subtitle-menu')" title="الترجمة">
+                <i class="fas fa-closed-captioning"></i>
+            </button>
+            <div class="dropdown-menu" id="subtitle-menu">
+                <button class="dropdown-item active" onclick="changeSubtitle('ar', this)">🇸🇦 العربية</button>
+                <button class="dropdown-item" onclick="changeSubtitle('en', this)">🇬🇧 English</button>
+                <button class="dropdown-item" onclick="changeSubtitle('fr', this)">🇫🇷 Français</button>
+                <button class="dropdown-item" onclick="changeSubtitle('es', this)">🇪🇸 Español</button>
+                <button class="dropdown-item" onclick="changeSubtitle('none', this)">بدون ترجمة</button>
+            </div>
         </div>
+
+        <!-- زر الصوت -->
+        <div class="icon-dropdown">
+            <button class="icon-btn" onclick="toggleDropdown(event, 'audio-menu')" title="الصوت">
+                <i class="fas fa-volume-up"></i>
+            </button>
+            <div class="dropdown-menu" id="audio-menu">
+                <button class="dropdown-item active" onclick="changeAudio('ar', this)">🇸🇦 العربية</button>
+                <button class="dropdown-item" onclick="changeAudio('en', this)">🇬🇧 English</button>
+                <button class="dropdown-item" onclick="changeAudio('fr', this)">🇫🇷 Français</button>
+                <button class="dropdown-item" onclick="changeAudio('es', this)">🇪🇸 Español</button>
+                <button class="dropdown-item" onclick="changeAudio('original', this)">🎬 الصوت الأصلي</button>
+            </div>
+        </div>
+
+        <div class="now-playing-title" id="now-playing">اختر فيلماً للمشاهدة</div>
     </div>
 
     <div id="tv-controls">
@@ -418,43 +453,31 @@
                 { id: 1022789, title: "Inside Out 2", type: "movie", poster: "https://image.tmdb.org/t/p/w342/vpnVM9B6NMmQpWeZvzLvDESb2QY.jpg" },
                 { id: 912649, title: "Venom: The Last Dance", type: "movie", poster: "https://image.tmdb.org/t/p/w342/aosm8Vh9ypZQIMejcuoTM6Fsiz0.jpg" },
                 { id: 945961, title: "Alien: Romulus", type: "movie", poster: "https://image.tmdb.org/t/p/w342/b33nnKl1GSFbao4l3fZDDqsMx0F.jpg" },
-                { id: 693134, title: "Dune: Part Two", type: "movie", poster: "https://image.tmdb.org/t/p/w342/1pdfLvkbY9ohJlCjQH2CZjjYVvJ.jpg" },
-                { id: 519182, title: "Despicable Me 4", type: "movie", poster: "https://image.tmdb.org/t/p/w342/wWba3TaojhK7NdycRhoQpsG0FaH.jpg" },
-                { id: 573435, title: "Bad Boys: Ride or Die", type: "movie", poster: "https://image.tmdb.org/t/p/w342/oGythE98MYleE6mZlGs5oBGkux1.jpg" },
-                { id: 748783, title: "The Garfield Movie", type: "movie", poster: "https://image.tmdb.org/t/p/w342/p6AbOJvMQhBmffd0PIv0u8ghWeY.jpg" },
-                { id: 653346, title: "Kingdom of the Planet of the Apes", type: "movie", poster: "https://image.tmdb.org/t/p/w342/gKkl37BQuKTanygYQG1pyYgLVgf.jpg" }
+                { id: 693134, title: "Dune: Part Two", type: "movie", poster: "https://image.tmdb.org/t/p/w342/1pdfLvkbY9ohJlCjQH2CZjjYVvJ.jpg" }
             ],
             action: [
                 { id: 299534, title: "Avengers: Endgame", type: "movie", poster: "https://image.tmdb.org/t/p/w342/or06FN3Dka5tukK1e9sl16pB3iy.jpg" },
                 { id: 299536, title: "Avengers: Infinity War", type: "movie", poster: "https://image.tmdb.org/t/p/w342/7WsyChQLEftFiDOVTGkv3hFpyyt.jpg" },
                 { id: 603, title: "The Matrix", type: "movie", poster: "https://image.tmdb.org/t/p/w342/f89U3ADr1oiB1s9GkdPOEpXUk5H.jpg" },
-                { id: 155, title: "The Dark Knight", type: "movie", poster: "https://image.tmdb.org/t/p/w342/qJ2tW6WMUDux911r6m7haRef0WH.jpg" },
-                { id: 245891, title: "John Wick", type: "movie", poster: "https://image.tmdb.org/t/p/w342/fZPS29VPJu3PD1twuqH73B8ioET.jpg" },
-                { id: 98, title: "Gladiator", type: "movie", poster: "https://image.tmdb.org/t/p/w342/ty8TGRuvJLPUmAR1H1nRIsgwvim.jpg" }
+                { id: 155, title: "The Dark Knight", type: "movie", poster: "https://image.tmdb.org/t/p/w342/qJ2tW6WMUDux911r6m7haRef0WH.jpg" }
             ],
             series: [
                 { id: 94605, title: "Arcane", type: "tv", poster: "https://image.tmdb.org/t/p/w342/abPQHGqX6bqaN1z25f69h7w25Tf.jpg" },
                 { id: 1396, title: "Breaking Bad", type: "tv", poster: "https://image.tmdb.org/t/p/w342/ztkUQFLlC19CCMYHW9o1zWhJRNq.jpg" },
                 { id: 1399, title: "Game of Thrones", type: "tv", poster: "https://image.tmdb.org/t/p/w342/1XS1oqL89opfnbLl8WnZY1O1uJx.jpg" },
-                { id: 66732, title: "Stranger Things", type: "tv", poster: "https://image.tmdb.org/t/p/w342/49WJfeN0moxb9IPfGn8AIqMGskD.jpg" },
-                { id: 71446, title: "Money Heist", type: "tv", poster: "https://image.tmdb.org/t/p/w342/reEMJA1uzscCbk5rUhGny407Zvr.jpg" },
-                { id: 93405, title: "Squid Game", type: "tv", poster: "https://image.tmdb.org/t/p/w342/dDlEmu3EZ0Pgg93K2SVNLCjCSvE.jpg" }
+                { id: 66732, title: "Stranger Things", type: "tv", poster: "https://image.tmdb.org/t/p/w342/49WJfeN0moxb9IPfGn8AIqMGskD.jpg" }
             ],
             anime: [
                 { id: 85937, title: "Demon Slayer", type: "tv", poster: "https://image.tmdb.org/t/p/w342/xUfRZu2mi8jH6SzQEJGP6tjBuYj.jpg" },
-                { id: 1429, title: "Attack on Titan", type: "tv", poster: "https://image.tmdb.org/t/p/w342/hTP1DtLGFamjfu8WqjnuQdP1n4i.jpg" },
-                { id: 37854, title: "One Piece", type: "tv", poster: "https://image.tmdb.org/t/p/w342/cMD9Ygz11yjUhzXcURIImuFgOhd.jpg" },
-                { id: 31911, title: "Fullmetal Alchemist: Brotherhood", type: "tv", poster: "https://image.tmdb.org/t/p/w342/5ZFUEOULaVml7p19UPF95MiYGEU.jpg" }
+                { id: 1429, title: "Attack on Titan", type: "tv", poster: "https://image.tmdb.org/t/p/w342/hTP1DtLGFamjfu8WqjnuQdP1n4i.jpg" }
             ],
             comedy: [
                 { id: 18785, title: "The Hangover", type: "movie", poster: "https://image.tmdb.org/t/p/w342/ulMsce9AoWoV0Gv2k25qH2xR6y4.jpg" },
-                { id: 12133, title: "The Dictator", type: "movie", poster: "https://image.tmdb.org/t/p/w342/3w6bBfgjEHQG8h9j5jN4uU7U7Zf.jpg" },
-                { id: 8363, title: "Superbad", type: "movie", poster: "https://image.tmdb.org/t/p/w342/ek8e8txUyU2G4t997W248qg9vJv.jpg" }
+                { id: 12133, title: "The Dictator", type: "movie", poster: "https://image.tmdb.org/t/p/w342/3w6bBfgjEHQG8h9j5jN4uU7U7Zf.jpg" }
             ],
             horror: [
                 { id: 578, title: "Jaws", type: "movie", poster: "https://image.tmdb.org/t/p/w342/lxM6kqilAdpdhqUl2biY2gnqUha.jpg" },
-                { id: 423204, title: "The Conjuring", type: "movie", poster: "https://image.tmdb.org/t/p/w342/wVYREutTvI2tmxr6ujrHT704wGF.jpg" },
-                { id: 346364, title: "It", type: "movie", poster: "https://image.tmdb.org/t/p/w342/9E2STOx92IRioHb7aD69jM06796.jpg" }
+                { id: 423204, title: "The Conjuring", type: "movie", poster: "https://image.tmdb.org/t/p/w342/wVYREutTvI2tmxr6ujrHT704wGF.jpg" }
             ]
         };
 
@@ -464,30 +487,26 @@
         let currentEpisode = 1;
         let currentQuality = '1080p';
         let currentSubtitle = 'ar';
+        let currentAudio = 'ar';
 
-        // ====== المشغلات ======
+        // ====== المشغلات (تم إلغاء السيرفر الأول القديم) ======
         const SERVERS = {
             1: {
-                name: 'AutoEmbed',
-                movie: (id) => `https://player.autoembed.cc/embed/movie/${id}`,
-                tv: (id, s, e) => `https://player.autoembed.cc/embed/tv/${id}/${s}/${e}`
-            },
-            2: {
                 name: 'VidLink',
                 movie: (id) => `https://vidlink.pro/movie/${id}`,
                 tv: (id, s, e) => `https://vidlink.pro/tv/${id}/${s}/${e}`
             },
-            3: {
+            2: {
                 name: 'VidSrc.to',
                 movie: (id) => `https://vidsrc.to/embed/movie/${id}`,
                 tv: (id, s, e) => `https://vidsrc.to/embed/tv/${id}/${s}/${e}`
             },
-            4: {
+            3: {
                 name: 'VidSrc.me',
                 movie: (id) => `https://vidsrc.me/embed/movie?tmdb=${id}`,
                 tv: (id, s, e) => `https://vidsrc.me/embed/tv?tmdb=${id}&season=${s}&episode=${e}`
             },
-            5: {
+            4: {
                 name: '2Embed',
                 movie: (id) => `https://www.2embed.cc/embed/${id}`,
                 tv: (id, s, e) => `https://www.2embed.cc/embedtv/${id}&s=${s}&e=${e}`
@@ -518,7 +537,7 @@
 
         function switchServer(num) {
             currentServer = num;
-            for (let i = 1; i <= 5; i++) {
+            for (let i = 1; i <= 4; i++) {
                 const btn = document.getElementById('srv' + i);
                 if (btn) btn.classList.toggle('active', i === num);
             }
@@ -527,6 +546,7 @@
 
         function selectMedia(id, type, title) {
             currentItem = { id, type, title };
+            // ✅ إعادة تعيين الموسم والحلقة دائماً عند اختيار عمل جديد
             currentSeason = 1;
             currentEpisode = 1;
 
@@ -545,10 +565,14 @@
         function setupTvDropdowns() {
             const sSelect = document.getElementById('season-num');
             const eSelect = document.getElementById('episode-num');
+            // ✅ إعادة تعيين كاملة للقوائم
             sSelect.innerHTML = '';
             eSelect.innerHTML = '';
             for (let s = 1; s <= 10; s++) sSelect.innerHTML += `<option value="${s}">الموسم ${s}</option>`;
             for (let e = 1; e <= 24; e++) eSelect.innerHTML += `<option value="${e}">الحلقة ${e}</option>`;
+            // ✅ تعيين القيم الافتراضية
+            sSelect.value = '1';
+            eSelect.value = '1';
         }
 
         function updateEpisode() {
@@ -664,19 +688,56 @@
             if (e.key === 'Enter') searchMedia();
         }
 
+        // ====== القوائم المنسدلة للأيقونات ======
+        function toggleDropdown(event, menuId) {
+            event.stopPropagation();
+            const targetMenu = document.getElementById(menuId);
+            const isOpen = targetMenu.classList.contains('show');
+
+            // إغلاق جميع القوائم
+            document.querySelectorAll('.dropdown-menu').forEach(m => m.classList.remove('show'));
+            document.querySelectorAll('.icon-btn').forEach(b => b.classList.remove('active'));
+
+            // فتح القائمة المطلوبة إذا لم تكن مفتوحة
+            if (!isOpen) {
+                targetMenu.classList.add('show');
+                event.currentTarget.classList.add('active');
+            }
+        }
+
+        // إغلاق القوائم عند الضغط خارجها
+        document.addEventListener('click', () => {
+            document.querySelectorAll('.dropdown-menu').forEach(m => m.classList.remove('show'));
+            document.querySelectorAll('.icon-btn').forEach(b => b.classList.remove('active'));
+        });
+
         // ====== تغيير الجودة ======
-        function changeQuality(quality) {
+        function changeQuality(quality, btn) {
             currentQuality = quality;
+            document.querySelectorAll('#quality-menu .dropdown-item').forEach(b => b.classList.remove('active'));
+            if (btn) btn.classList.add('active');
             playMedia();
             showToast(`الجودة: ${quality}`);
         }
 
         // ====== تغيير الترجمة ======
-        function changeSubtitle(lang) {
+        function changeSubtitle(lang, btn) {
             currentSubtitle = lang;
+            document.querySelectorAll('#subtitle-menu .dropdown-item').forEach(b => b.classList.remove('active'));
+            if (btn) btn.classList.add('active');
             playMedia();
             const langName = { ar: 'العربية', en: 'English', fr: 'Français', es: 'Español', none: 'بدون ترجمة' }[lang] || lang;
             showToast(`الترجمة: ${langName}`);
+        }
+
+        // ====== تغيير الصوت ======
+        function changeAudio(lang, btn) {
+            currentAudio = lang;
+            document.querySelectorAll('#audio-menu .dropdown-item').forEach(b => b.classList.remove('active'));
+            if (btn) btn.classList.add('active');
+            playMedia();
+            const langName = { ar: 'العربية', en: 'English', fr: 'Français', es: 'Español', original: 'الصوت الأصلي' }[lang] || lang;
+            showToast(`الصوت: ${langName}`);
         }
 
         // ====== إشعار Toast ======
