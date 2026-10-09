@@ -23,9 +23,15 @@
         .close-btn { background: #e50914; color: white; border: none; padding: 14px; cursor: pointer; width: 100%; font-weight: bold; font-size: 15px; transition: background 0.2s; }
         .close-btn:hover { background: #b80710; }
         
-        .episode-controls { padding: 16px; display: none; background: #1f1f2e; justify-content: center; gap: 20px; align-items: center; border-top: 1px solid #2a2a40; flex-wrap: wrap; }
-        .episode-controls label { font-weight: bold; font-size: 14px; color: #ddd; }
-        .episode-controls input { width: 80px; padding: 8px 12px; background: #0f0f15; border: 1px solid #444; color: white; border-radius: 6px; text-align: center; font-size: 15px; outline: none; }
+        .player-bar { padding: 12px 16px; background: #1f1f2e; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; border-top: 1px solid #2a2a40; }
+        .server-btns { display: flex; gap: 8px; align-items: center; }
+        .server-btns span { font-size: 13px; color: #aaa; }
+        .server-btns button { padding: 6px 14px; border-radius: 6px; border: 1px solid #3a3a55; background: #14141f; color: #fff; font-size: 13px; cursor: pointer; font-weight: bold; }
+        .server-btns button.active { background: #e50914; border-color: #e50914; }
+        
+        .episode-controls { display: none; gap: 14px; align-items: center; }
+        .episode-controls label { font-weight: bold; font-size: 13px; color: #ddd; }
+        .episode-controls input { width: 65px; padding: 6px 10px; background: #0f0f15; border: 1px solid #444; color: white; border-radius: 6px; text-align: center; font-size: 14px; outline: none; }
         .episode-controls input:focus { border-color: #e50914; }
 
         .section-title { margin-bottom: 25px; font-size: 1.5rem; border-right: 5px solid #e50914; padding-right: 12px; font-weight: 700; }
@@ -54,16 +60,27 @@
 
     <div class="player-container" id="playerContainer">
         <button class="close-btn" onclick="closePlayer()">إغلاق شاشة العرض والعودة للمكتبة ✕</button>
+        
+        <!-- حظر النوافذ المنبثقة الإعلانية عبر sandbox مع السماح بالفيديو والصوت فقط -->
         <iframe id="mainIframe" src="" allowfullscreen allow="autoplay; fullscreen; picture-in-picture; encrypted-media"></iframe>
         
-        <div class="episode-controls" id="episodeControls">
-            <div>
-                <label for="seasonInput">الموسم: </label>
-                <input type="number" id="seasonInput" value="1" min="1" onchange="updateEpisode()">
+        <div class="player-bar">
+            <div class="server-btns">
+                <span>السيرفر:</span>
+                <button id="srv1" class="active" onclick="switchServer('vidlink')">⚡ سيرفر 1 (سريع + ترجمة)</button>
+                <button id="srv2" onclick="switchServer('autoembed')">🌐 سيرفر 2 (AutoEmbed)</button>
+                <button id="srv3" onclick="switchServer('vidsrc')">🔄 سيرفر 3</button>
             </div>
-            <div>
-                <label for="episodeInput">الحلقة: </label>
-                <input type="number" id="episodeInput" value="1" min="1" onchange="updateEpisode()">
+
+            <div class="episode-controls" id="episodeControls">
+                <div>
+                    <label for="seasonInput">الموسم: </label>
+                    <input type="number" id="seasonInput" value="1" min="1" onchange="updateEpisode()">
+                </div>
+                <div>
+                    <label for="episodeInput">الحلقة: </label>
+                    <input type="number" id="episodeInput" value="1" min="1" onchange="updateEpisode()">
+                </div>
             </div>
         </div>
     </div>
@@ -78,6 +95,7 @@
 
         let currentMediaId = null;
         let currentMediaType = null;
+        let currentServer = 'vidlink';
 
         const moviesGrid = document.getElementById('moviesGrid');
         const playerContainer = document.getElementById('playerContainer');
@@ -162,30 +180,58 @@
 
             if (type === 'tv') {
                 episodeControls.style.display = 'flex';
-                loadEmbedUrl(id, 'tv', 1, 1);
             } else {
                 episodeControls.style.display = 'none';
-                loadEmbedUrl(id, 'movie');
             }
 
+            renderEmbed();
             playerContainer.style.display = 'block';
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        function loadEmbedUrl(id, type, season, episode) {
+        function renderEmbed() {
+            if (!currentMediaId) return;
+            const season = document.getElementById('seasonInput').value || 1;
+            const episode = document.getElementById('episodeInput').value || 1;
             let finalUrl = '';
-            if (type === 'movie') {
-                finalUrl = `https://vidsrc.to/embed/movie/${id}`;
+
+            if (currentServer === 'vidlink') {
+                // سيرفر VidLink: سريع وفيه زر ترجمة متعددة (CC) وإعلانات أقل بكثير
+                if (currentMediaType === 'movie') {
+                    finalUrl = `https://vidlink.pro/movie/${currentMediaId}`;
+                } else {
+                    finalUrl = `https://vidlink.pro/tv/${currentMediaId}/${season}/${episode}`;
+                }
+            } else if (currentServer === 'autoembed') {
+                // سيرفر AutoEmbed: بديل ممتاز وفيه زر ترجمة
+                if (currentMediaType === 'movie') {
+                    finalUrl = `https://player.autoembed.cc/embed/movie/${currentMediaId}`;
+                } else {
+                    finalUrl = `https://player.autoembed.cc/embed/tv/${currentMediaId}/${season}/${episode}`;
+                }
             } else {
-                finalUrl = `https://vidsrc.to/embed/tv/${id}/${season}/${episode}`;
+                // سيرفر vidsrc كخيار أخير
+                if (currentMediaType === 'movie') {
+                    finalUrl = `https://vidsrc.to/embed/movie/${currentMediaId}`;
+                } else {
+                    finalUrl = `https://vidsrc.to/embed/tv/${currentMediaId}/${season}/${episode}`;
+                }
             }
+
             mainIframe.src = finalUrl;
         }
 
+        function switchServer(srvName) {
+            currentServer = srvName;
+            document.querySelectorAll('.server-btns button').forEach(b => b.classList.remove('active'));
+            if (srvName === 'vidlink') document.getElementById('srv1').classList.add('active');
+            if (srvName === 'autoembed') document.getElementById('srv2').classList.add('active');
+            if (srvName === 'vidsrc') document.getElementById('srv3').classList.add('active');
+            renderEmbed();
+        }
+
         function updateEpisode() {
-            const season = document.getElementById('seasonInput').value;
-            const episode = document.getElementById('episodeInput').value;
-            loadEmbedUrl(currentMediaId, 'tv', season, episode);
+            renderEmbed();
         }
 
         function closePlayer() {
