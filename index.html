@@ -54,7 +54,7 @@
 
     <div class="player-container" id="playerContainer">
         <button class="close-btn" onclick="closePlayer()">إغلاق شاشة العرض والعودة للمكتبة ✕</button>
-        <div id="videoPlatform"></div>
+        <iframe id="mainIframe" src="" allowfullscreen allow="autoplay; fullscreen; picture-in-picture; encrypted-media"></iframe>
         
         <div class="episode-controls" id="episodeControls">
             <div>
@@ -70,21 +70,18 @@
 
     <h2 class="section-title" id="gridTitle">🔥 الأكثر رواجاً هذا الأسبوع:</h2>
     <div class="movies-grid" id="moviesGrid">
-        <p id="loadingText" style="grid-column: 1/-1; text-align:center; color:#ffbd03;">جاري الاتصال بالسيرفر الآمن وتخطي الحجب لإظهار الأفلام...</p>
+        <p id="loadingText" style="grid-column: 1/-1; text-align:center; color:#ffbd03;">جاري تحميل مكتبة الأفلام السريعة...</p>
     </div>
 
     <script>
         const TMDB_API_KEY = 'c7f20018c3cfc5d46cdc6f1defb13d3d'; 
-        
-        // خادم وسيط لتخطي حجب شبكات الاتصال المحلية لـ TMDB
-        const PROXY_URL = 'https://allorigins.win';
+        const PROXY_URL = 'https://cors.lol';
 
         let currentMediaId = null;
         let currentMediaType = null;
-
         const moviesGrid = document.getElementById('moviesGrid');
         const playerContainer = document.getElementById('playerContainer');
-        const videoPlatform = document.getElementById('videoPlatform');
+        const mainIframe = document.getElementById('mainIframe');
         const episodeControls = document.getElementById('episodeControls');
         const gridTitle = document.getElementById('gridTitle');
         const searchInput = document.getElementById('searchInput');
@@ -92,31 +89,29 @@
 
         async function fetchTrendingMedia() {
             try {
-                const targetUrl = `https://themoviedb.org{TMDB_API_KEY}&language=ar`;
+                const targetUrl = 'https://themoviedb.org' + TMDB_API_KEY + '&language=ar';
                 const response = await fetch(PROXY_URL + encodeURIComponent(targetUrl));
-                const jsonWrapper = await response.json();
-                const data = JSON.parse(jsonWrapper.contents);
+                const data = await response.json();
                 
                 if(loadingText) loadingText.style.display = 'none';
                 displayMedia(data.results);
             } catch (error) {
                 console.error("خطأ:", error);
-                if(loadingText) loadingText.innerText = "فشل تخطي الحجب. يرجى تجربة تشغيل VPN أو تحديث الصفحة لاحقاً.";
+                if(loadingText) loadingText.innerText = "فشل تحميل الأفلام. جرب تحديث الصفحة بعد ثوانٍ.";
             }
         }
 
         async function searchMedia() {
             const query = searchInput.value.trim();
             if(!query) return;
-            moviesGrid.innerHTML = "<p style='grid-column: 1/-1; text-align:center;'>جاري البحث عن طريق السيرفر الآمن...</p>";
+            moviesGrid.innerHTML = "<p style='grid-column: 1/-1; text-align:center;'>جاري البحث السريع...</p>";
             
             try {
-                const targetUrl = `https://themoviedb.org{TMDB_API_KEY}&language=ar&query=${encodeURIComponent(query)}`;
+                const targetUrl = 'https://themoviedb.org' + TMDB_API_KEY + '&language=ar&query=' + encodeURIComponent(query);
                 const response = await fetch(PROXY_URL + encodeURIComponent(targetUrl));
-                const jsonWrapper = await response.json();
-                const data = JSON.parse(jsonWrapper.contents);
+                const data = await response.json();
                 
-                gridTitle.innerText = `🔍 نتائج البحث عن: ${query}`;
+                gridTitle.innerText = "🔍 نتائج البحث عن: " + query;
                 displayMedia(data.results);
             } catch (error) {
                 console.error("خطأ:", error);
@@ -144,21 +139,17 @@
                 const typeLabel = mediaType === 'movie' ? 'فيلم' : 'مسلسل';
                 const ratingValue = item.vote_average ? item.vote_average.toFixed(1) : '0.0';
 
-                card.innerHTML = `
-                    <div class="badge">⭐ ${ratingValue}</div>
-                    <div class="type-badge">${typeLabel}</div>
-                    <img src="https://tmdb.org{item.poster_path}" alt="${title}">
-                    <div class="movie-info">
-                        <div class="movie-title">${title}</div>
-                    </div>
-                `;
+                card.innerHTML = '<div class="badge">⭐ ' + ratingValue + '</div>' +
+                                 '<div class="type-badge">' + typeLabel + '</div>' +
+                                 '<img src="https://tmdb.org' + item.poster_path + '" alt="' + title + '">' +
+                                 '<div class="movie-info"><div class="movie-title">' + title + '</div></div>';
 
-                card.onclick = () => startPlay(item.id, mediaType);
+                card.onclick = function() { startPlay(item.id, mediaType); };
                 moviesGrid.appendChild(card);
             });
 
             if(validCardsCount === 0) {
-                moviesGrid.innerHTML = "<p style='grid-column: 1/-1; text-align:center; color: #aaa;'>لا توجد بيانات متاحة حالياً.</p>";
+                moviesGrid.innerHTML = "<p style='grid-column: 1/-1; text-align:center; color: #aaa;'>لا توجد نتائج متوفرة.</p>";
             }
         }
 
@@ -181,8 +172,28 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        function loadEmbedUrl(id, type, season = 1, episode = 1) {
+        function loadEmbedUrl(id, type, season, episode) {
             let finalUrl = '';
             if (type === 'movie') {
-                finalUrl = `https://vidsrc.party{id}`;
+                finalUrl = 'https://vidsrc.party' + id;
             } else {
+                finalUrl = 'https://vidsrc.party' + id + '/' + season + '/' + episode;
+            }
+            mainIframe.src = finalUrl;
+        }
+
+        function updateEpisode() {
+            const season = document.getElementById('seasonInput').value;
+            const episode = document.getElementById('episodeInput').value;
+            loadEmbedUrl(currentMediaId, 'tv', season, episode);
+        }
+
+        function closePlayer() {
+            playerContainer.style.display = 'none';
+            mainIframe.src = '';
+        }
+
+        window.onload = fetchTrendingMedia;
+    </script>
+</body>
+</html>
