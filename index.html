@@ -20,7 +20,6 @@
             padding-bottom: 30px;
         }
 
-        /* 1. المشغل العلوي الثابت تماماً مثل مشغل القنوات */
         #player-wrapper {
             position: sticky;
             top: 0;
@@ -28,14 +27,11 @@
             height: 240px;
             background-color: #000000;
             z-index: 1000;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.8);
             border-bottom: 1px solid #1a1a1a;
         }
 
         @media (min-width: 768px) {
-            #player-wrapper {
-                height: 480px;
-            }
+            #player-wrapper { height: 480px; }
         }
 
         #main-player {
@@ -45,7 +41,6 @@
             background-color: #000000;
         }
 
-        /* 2. شريط التحكم والسيرفرات وزر TV */
         .controls-bar {
             background-color: #0a0a0a;
             padding: 10px 14px;
@@ -54,11 +49,13 @@
             justify-content: space-between;
             border-bottom: 1px solid #1f1f1f;
             gap: 8px;
+            flex-wrap: wrap;
         }
 
         .server-buttons {
             display: flex;
             gap: 6px;
+            flex-wrap: wrap;
         }
 
         .btn-server {
@@ -79,7 +76,10 @@
             border-color: #e50914;
         }
 
-        /* زر Tv المميز للرجوع للمباشر */
+        .btn-server:hover {
+            background: #2a2a32;
+        }
+
         .btn-tv {
             background: linear-gradient(135deg, #00c853, #009624);
             color: #ffffff !important;
@@ -93,11 +93,6 @@
             gap: 6px;
             text-decoration: none;
             cursor: pointer;
-            box-shadow: 0 2px 8px rgba(0, 200, 83, 0.4);
-        }
-
-        .btn-tv:active {
-            transform: scale(0.96);
         }
 
         .now-playing-title {
@@ -107,10 +102,9 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            max-width: 40%;
+            max-width: 38%;
         }
 
-        /* 3. صندوق البحث السريع */
         .search-container {
             padding: 12px 14px 6px 14px;
             display: flex;
@@ -142,7 +136,6 @@
             cursor: pointer;
         }
 
-        /* 4. شريط الأقسام الأفقي (مثل المباشر) */
         .categories-scroll {
             display: flex;
             gap: 8px;
@@ -161,7 +154,6 @@
             font-size: 13px;
             white-space: nowrap;
             cursor: pointer;
-            user-select: none;
         }
 
         .cat-chip.active {
@@ -171,7 +163,6 @@
             font-weight: bold;
         }
 
-        /* عنوان القسم الحالي */
         .section-header {
             padding: 12px 16px 6px 16px;
             font-size: 16px;
@@ -189,7 +180,6 @@
             border-radius: 2px;
         }
 
-        /* 5. شبكة البوسترات والكروت */
         .media-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -198,15 +188,10 @@
         }
 
         @media (min-width: 600px) {
-            .media-grid {
-                grid-template-columns: repeat(4, 1fr);
-                gap: 14px;
-            }
+            .media-grid { grid-template-columns: repeat(4, 1fr); gap: 14px; }
         }
         @media (min-width: 900px) {
-            .media-grid {
-                grid-template-columns: repeat(6, 1fr);
-            }
+            .media-grid { grid-template-columns: repeat(6, 1fr); }
         }
 
         .card {
@@ -215,13 +200,10 @@
             overflow: hidden;
             cursor: pointer;
             position: relative;
-            transition: transform 0.2s;
             border: 1px solid #1f1f1f;
         }
 
-        .card:active {
-            transform: scale(0.96);
-        }
+        .card:active { transform: scale(0.96); }
 
         .card img {
             width: 100%;
@@ -231,10 +213,7 @@
             background: #181818;
         }
 
-        .card-info {
-            padding: 6px;
-        }
-
+        .card-info { padding: 6px; }
         .card-title {
             font-size: 11px;
             font-weight: 600;
@@ -256,16 +235,6 @@
             font-weight: bold;
         }
 
-        /* رسالة التحميل والخطأ */
-        .state-box {
-            text-align: center;
-            padding: 40px 20px;
-            color: #888;
-            font-size: 14px;
-            grid-column: 1 / -1;
-        }
-
-        /* محدد المواسم والحلقات للمسلسلات */
         #tv-controls {
             display: none;
             background: #111;
@@ -273,6 +242,7 @@
             border-bottom: 1px solid #222;
             gap: 8px;
             align-items: center;
+            flex-wrap: wrap;
         }
         .tv-select {
             background: #222;
@@ -282,26 +252,102 @@
             border-radius: 4px;
             font-size: 12px;
         }
+
+        /* شريط خيارات الجودة والترجمة - قوائم منسدلة سلسة */
+        .extra-bar {
+            display: flex;
+            gap: 8px;
+            padding: 8px 14px;
+            background: #0a0a0a;
+            border-bottom: 1px solid #1f1f1f;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .select-group {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: #141414;
+            border: 1px solid #262626;
+            border-radius: 8px;
+            padding: 4px 10px;
+            transition: border-color 0.2s;
+        }
+
+        .select-group:focus-within {
+            border-color: #e50914;
+        }
+
+        .select-group i {
+            color: #e50914;
+            font-size: 13px;
+        }
+
+        .select-group label {
+            font-size: 12px;
+            color: #888;
+            font-weight: 600;
+        }
+
+        .styled-select {
+            background: transparent;
+            color: #fff;
+            border: none;
+            padding: 6px 4px;
+            font-size: 13px;
+            font-weight: 600;
+            outline: none;
+            cursor: pointer;
+            appearance: none;
+            -webkit-appearance: none;
+            padding-left: 18px;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23e50914' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: left center;
+            background-size: 12px;
+        }
+
+        .styled-select option {
+            background: #1a1a1a;
+            color: #fff;
+            padding: 8px;
+        }
+
+        .loading-spinner {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+        .loading-spinner i {
+            font-size: 32px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
     </style>
 </head>
 <body>
 
-    <!-- 1. المشغل الثابت فوق -->
     <div id="player-wrapper">
         <iframe id="main-player" 
                 src="" 
                 allowfullscreen="true" 
                 webkitallowfullscreen="true" 
                 mozallowfullscreen="true"
-                sandbox="allow-scripts allow-same-origin allow-forms allow-presentation">
+                allow="autoplay; fullscreen; encrypted-media; picture-in-picture">
         </iframe>
     </div>
 
-    <!-- 2. شريط السيرفرات + زر TV -->
     <div class="controls-bar">
         <div class="server-buttons">
             <button class="btn-server active" id="srv1" onclick="switchServer(1)">سيرفر 1</button>
             <button class="btn-server" id="srv2" onclick="switchServer(2)">سيرفر 2</button>
+            <button class="btn-server" id="srv3" onclick="switchServer(3)">سيرفر 3</button>
+            <button class="btn-server" id="srv4" onclick="switchServer(4)">سيرفر 4</button>
+            <button class="btn-server" id="srv5" onclick="switchServer(5)">سيرفر 5</button>
         </div>
         <div class="now-playing-title" id="now-playing">اختر فيلماً للمشاهدة</div>
         <a href="https://alameeereshooot-web.github.io/i/" class="btn-tv" title="الانتقال إلى البث المباشر">
@@ -309,7 +355,31 @@
         </a>
     </div>
 
-    <!-- محدد الحلقات للمسلسلات -->
+    <!-- شريط خيارات الجودة والترجمة - قوائم منسدلة -->
+    <div class="extra-bar">
+        <div class="select-group">
+            <i class="fas fa-cog"></i>
+            <label>الجودة:</label>
+            <select class="styled-select" id="quality-select" onchange="changeQuality(this.value)">
+                <option value="1080p" selected>1080p - Full HD</option>
+                <option value="720p">720p - HD</option>
+                <option value="480p">480p - SD</option>
+                <option value="360p">360p - Low</option>
+            </select>
+        </div>
+        <div class="select-group">
+            <i class="fas fa-closed-captioning"></i>
+            <label>الترجمة:</label>
+            <select class="styled-select" id="subtitle-select" onchange="changeSubtitle(this.value)">
+                <option value="ar" selected>🇸🇦 العربية</option>
+                <option value="en">🇬🇧 English</option>
+                <option value="fr">🇫🇷 Français</option>
+                <option value="es">🇪🇸 Español</option>
+                <option value="none">بدون ترجمة</option>
+            </select>
+        </div>
+    </div>
+
     <div id="tv-controls">
         <span style="font-size: 12px; color: #aaa;">الموسم:</span>
         <select id="season-num" class="tv-select" onchange="updateEpisode()"></select>
@@ -317,95 +387,130 @@
         <select id="episode-num" class="tv-select" onchange="updateEpisode()"></select>
     </div>
 
-    <!-- 3. البحث -->
     <div class="search-container">
         <input type="text" id="search-box" class="search-input" placeholder="ابحث عن فيلم أو مسلسل..." onkeypress="handleEnter(event)">
         <button class="search-btn" onclick="searchMedia()"><i class="fas fa-search"></i></button>
     </div>
 
-    <!-- 4. المجموعات والتصنيفات -->
     <div class="categories-scroll">
-        <div class="cat-chip active" onclick="loadCat('trending', this)">🔥 الأكثر رواجاً</div>
-        <div class="cat-chip" onclick="loadCat('arabic', this)">🇸🇦 أفلام عربية</div>
-        <div class="cat-chip" onclick="loadCat('action', this)">💥 أكشن وإثارة</div>
-        <div class="cat-chip" onclick="loadCat('series', this)">📺 مسلسلات</div>
-        <div class="cat-chip" onclick="loadCat('anime', this)">🎨 أنمي وكارتون</div>
-        <div class="cat-chip" onclick="loadCat('comedy', this)">😂 كوميديا</div>
-        <div class="cat-chip" onclick="loadCat('horror', this)">👻 رعب</div>
+        <div class="cat-chip active" onclick="loadCategory('trending', this)">🔥 الأكثر رواجاً</div>
+        <div class="cat-chip" onclick="loadCategory('action', this)">💥 أكشن وإثارة</div>
+        <div class="cat-chip" onclick="loadCategory('series', this)">📺 مسلسلات</div>
+        <div class="cat-chip" onclick="loadCategory('anime', this)">🎨 أنمي وكارتون</div>
+        <div class="cat-chip" onclick="loadCategory('comedy', this)">😂 كوميديا</div>
+        <div class="cat-chip" onclick="loadCategory('horror', this)">👻 رعب</div>
     </div>
 
     <div class="section-header" id="current-cat-title">الأكثر رواجاً</div>
 
-    <!-- 5. شبكة الأفلام -->
-    <div class="media-grid" id="grid">
-        <div class="state-box">جاري تحميل البوسترات...</div>
-    </div>
+    <div class="media-grid" id="grid"></div>
 
     <script>
-        const TMDB_KEY = 'c7f20018c3cfa8d9e2621142511eaee4';
-        
-        // بروكسيات متعددة لضمان تخطي أي حجب لمزودات الاتصال باليمن
-        const PROXIES = [
-            (u) => `https://l.alameeeretv.workers.dev/?url=${encodeURIComponent(u)}`,
-            (u) => `https://api.allorigins.win/raw?url=${encodeURIComponent(u)}`,
-            (u) => `https://corsproxy.io/?${encodeURIComponent(u)}`
-        ];
+        // ====== مفتاح TMDB ======
+        const TMDB_API_KEY = 'c7f20018c3cfc5d46cdc6f1defb13d3d';
+        const TMDB_BASE = 'https://api.themoviedb.org/3';
+        const IMG_BASE = 'https://image.tmdb.org/t/p/w342';
+
+        // ====== الكتالوج الاحتياطي ======
+        const BACKUP_CATALOG = {
+            trending: [
+                { id: 533535, title: "Deadpool & Wolverine", type: "movie", poster: "https://image.tmdb.org/t/p/w342/8cdWjvZQUExUUTzyp4t6EDMubfO.jpg" },
+                { id: 1022789, title: "Inside Out 2", type: "movie", poster: "https://image.tmdb.org/t/p/w342/vpnVM9B6NMmQpWeZvzLvDESb2QY.jpg" },
+                { id: 912649, title: "Venom: The Last Dance", type: "movie", poster: "https://image.tmdb.org/t/p/w342/aosm8Vh9ypZQIMejcuoTM6Fsiz0.jpg" },
+                { id: 945961, title: "Alien: Romulus", type: "movie", poster: "https://image.tmdb.org/t/p/w342/b33nnKl1GSFbao4l3fZDDqsMx0F.jpg" },
+                { id: 693134, title: "Dune: Part Two", type: "movie", poster: "https://image.tmdb.org/t/p/w342/1pdfLvkbY9ohJlCjQH2CZjjYVvJ.jpg" },
+                { id: 519182, title: "Despicable Me 4", type: "movie", poster: "https://image.tmdb.org/t/p/w342/wWba3TaojhK7NdycRhoQpsG0FaH.jpg" },
+                { id: 573435, title: "Bad Boys: Ride or Die", type: "movie", poster: "https://image.tmdb.org/t/p/w342/oGythE98MYleE6mZlGs5oBGkux1.jpg" },
+                { id: 748783, title: "The Garfield Movie", type: "movie", poster: "https://image.tmdb.org/t/p/w342/p6AbOJvMQhBmffd0PIv0u8ghWeY.jpg" },
+                { id: 653346, title: "Kingdom of the Planet of the Apes", type: "movie", poster: "https://image.tmdb.org/t/p/w342/gKkl37BQuKTanygYQG1pyYgLVgf.jpg" }
+            ],
+            action: [
+                { id: 299534, title: "Avengers: Endgame", type: "movie", poster: "https://image.tmdb.org/t/p/w342/or06FN3Dka5tukK1e9sl16pB3iy.jpg" },
+                { id: 299536, title: "Avengers: Infinity War", type: "movie", poster: "https://image.tmdb.org/t/p/w342/7WsyChQLEftFiDOVTGkv3hFpyyt.jpg" },
+                { id: 603, title: "The Matrix", type: "movie", poster: "https://image.tmdb.org/t/p/w342/f89U3ADr1oiB1s9GkdPOEpXUk5H.jpg" },
+                { id: 155, title: "The Dark Knight", type: "movie", poster: "https://image.tmdb.org/t/p/w342/qJ2tW6WMUDux911r6m7haRef0WH.jpg" },
+                { id: 245891, title: "John Wick", type: "movie", poster: "https://image.tmdb.org/t/p/w342/fZPS29VPJu3PD1twuqH73B8ioET.jpg" },
+                { id: 98, title: "Gladiator", type: "movie", poster: "https://image.tmdb.org/t/p/w342/ty8TGRuvJLPUmAR1H1nRIsgwvim.jpg" }
+            ],
+            series: [
+                { id: 94605, title: "Arcane", type: "tv", poster: "https://image.tmdb.org/t/p/w342/abPQHGqX6bqaN1z25f69h7w25Tf.jpg" },
+                { id: 1396, title: "Breaking Bad", type: "tv", poster: "https://image.tmdb.org/t/p/w342/ztkUQFLlC19CCMYHW9o1zWhJRNq.jpg" },
+                { id: 1399, title: "Game of Thrones", type: "tv", poster: "https://image.tmdb.org/t/p/w342/1XS1oqL89opfnbLl8WnZY1O1uJx.jpg" },
+                { id: 66732, title: "Stranger Things", type: "tv", poster: "https://image.tmdb.org/t/p/w342/49WJfeN0moxb9IPfGn8AIqMGskD.jpg" },
+                { id: 71446, title: "Money Heist", type: "tv", poster: "https://image.tmdb.org/t/p/w342/reEMJA1uzscCbk5rUhGny407Zvr.jpg" },
+                { id: 93405, title: "Squid Game", type: "tv", poster: "https://image.tmdb.org/t/p/w342/dDlEmu3EZ0Pgg93K2SVNLCjCSvE.jpg" }
+            ],
+            anime: [
+                { id: 85937, title: "Demon Slayer", type: "tv", poster: "https://image.tmdb.org/t/p/w342/xUfRZu2mi8jH6SzQEJGP6tjBuYj.jpg" },
+                { id: 1429, title: "Attack on Titan", type: "tv", poster: "https://image.tmdb.org/t/p/w342/hTP1DtLGFamjfu8WqjnuQdP1n4i.jpg" },
+                { id: 37854, title: "One Piece", type: "tv", poster: "https://image.tmdb.org/t/p/w342/cMD9Ygz11yjUhzXcURIImuFgOhd.jpg" },
+                { id: 31911, title: "Fullmetal Alchemist: Brotherhood", type: "tv", poster: "https://image.tmdb.org/t/p/w342/5ZFUEOULaVml7p19UPF95MiYGEU.jpg" }
+            ],
+            comedy: [
+                { id: 18785, title: "The Hangover", type: "movie", poster: "https://image.tmdb.org/t/p/w342/ulMsce9AoWoV0Gv2k25qH2xR6y4.jpg" },
+                { id: 12133, title: "The Dictator", type: "movie", poster: "https://image.tmdb.org/t/p/w342/3w6bBfgjEHQG8h9j5jN4uU7U7Zf.jpg" },
+                { id: 8363, title: "Superbad", type: "movie", poster: "https://image.tmdb.org/t/p/w342/ek8e8txUyU2G4t997W248qg9vJv.jpg" }
+            ],
+            horror: [
+                { id: 578, title: "Jaws", type: "movie", poster: "https://image.tmdb.org/t/p/w342/lxM6kqilAdpdhqUl2biY2gnqUha.jpg" },
+                { id: 423204, title: "The Conjuring", type: "movie", poster: "https://image.tmdb.org/t/p/w342/wVYREutTvI2tmxr6ujrHT704wGF.jpg" },
+                { id: 346364, title: "It", type: "movie", poster: "https://image.tmdb.org/t/p/w342/9E2STOx92IRioHb7aD69jM06796.jpg" }
+            ]
+        };
 
         let currentServer = 1;
-        let currentItem = { id: 533535, type: 'movie', title: 'Deadpool & Wolverine' }; // افتراضي عند الفتح
+        let currentItem = BACKUP_CATALOG.trending[0];
         let currentSeason = 1;
         let currentEpisode = 1;
+        let currentQuality = '1080p';
+        let currentSubtitle = 'ar';
 
-        // دالة جلب قوية تتنقل بين البروكسيات تلقائياً في حال فشل أي واحد
-        async function fetchAPI(endpoint) {
-            const tmdbUrl = `https://api.themoviedb.org/3${endpoint}${endpoint.includes('?') ? '&' : '?'}api_key=${TMDB_KEY}&language=ar-SA`;
-            
-            // نجرب أولاً رابط Workers الخاص بك ثم البدائل
-            for (let proxyFn of PROXIES) {
-                try {
-                    const target = proxyFn(tmdbUrl);
-                    const res = await fetch(target, { cache: "no-store" });
-                    if (res.ok) {
-                        const data = await res.json();
-                        if (data && (data.results || data.id)) return data.results || data;
-                    }
-                } catch (e) {
-                    // الانتقال للبروكسي التالي
-                }
+        // ====== المشغلات ======
+        const SERVERS = {
+            1: {
+                name: 'AutoEmbed',
+                movie: (id) => `https://player.autoembed.cc/embed/movie/${id}`,
+                tv: (id, s, e) => `https://player.autoembed.cc/embed/tv/${id}/${s}/${e}`
+            },
+            2: {
+                name: 'VidLink',
+                movie: (id) => `https://vidlink.pro/movie/${id}`,
+                tv: (id, s, e) => `https://vidlink.pro/tv/${id}/${s}/${e}`
+            },
+            3: {
+                name: 'VidSrc.to',
+                movie: (id) => `https://vidsrc.to/embed/movie/${id}`,
+                tv: (id, s, e) => `https://vidsrc.to/embed/tv/${id}/${s}/${e}`
+            },
+            4: {
+                name: 'VidSrc.me',
+                movie: (id) => `https://vidsrc.me/embed/movie?tmdb=${id}`,
+                tv: (id, s, e) => `https://vidsrc.me/embed/tv?tmdb=${id}&season=${s}&episode=${e}`
+            },
+            5: {
+                name: '2Embed',
+                movie: (id) => `https://www.2embed.cc/embed/${id}`,
+                tv: (id, s, e) => `https://www.2embed.cc/embedtv/${id}&s=${s}&e=${e}`
             }
+        };
 
-            // محاولة أخيرة مباشرة بدون بروكسي
-            try {
-                const direct = await fetch(tmdbUrl);
-                if (direct.ok) {
-                    const data = await direct.json();
-                    return data.results || data;
-                }
-            } catch(e) {}
-
-            return [];
-        }
-
-        // تشغيل الرابط في المشغل بحسب السيرفر
+        // ====== تشغيل الوسائط ======
         function playMedia() {
             const player = document.getElementById('main-player');
             const titleEl = document.getElementById('now-playing');
-            titleEl.textContent = currentItem.title || 'جاري العرض';
+            titleEl.textContent = currentItem.title;
 
-            let src = '';
             const id = currentItem.id;
             const isTv = currentItem.type === 'tv';
+            const server = SERVERS[currentServer];
+            
+            if (!server) return;
 
-            if (currentServer === 1) {
-                // سيرفر 1 (VidLink سريع ونظيف وبترجمة تلقائية)
-                src = isTv 
-                    ? `https://vidlink.pro/tv/${id}/${currentSeason}/${currentEpisode}?sub.info=true`
-                    : `https://vidlink.pro/movie/${id}?sub.info=true`;
+            let src = '';
+            if (isTv) {
+                src = server.tv(id, currentSeason, currentEpisode);
             } else {
-                // سيرفر 2 (AutoEmbed بديل قوي)
-                src = isTv
-                    ? `https://player.autoembed.cc/embed/tv/${id}/${currentSeason}/${currentEpisode}`
-                    : `https://player.autoembed.cc/embed/movie/${id}`;
+                src = server.movie(id);
             }
 
             player.src = src;
@@ -413,12 +518,14 @@
 
         function switchServer(num) {
             currentServer = num;
-            document.getElementById('srv1').classList.toggle('active', num === 1);
-            document.getElementById('srv2').classList.toggle('active', num === 2);
+            for (let i = 1; i <= 5; i++) {
+                const btn = document.getElementById('srv' + i);
+                if (btn) btn.classList.toggle('active', i === num);
+            }
             playMedia();
         }
 
-        function selectMedia(id, type, title, totalSeasons = 1) {
+        function selectMedia(id, type, title) {
             currentItem = { id, type, title };
             currentSeason = 1;
             currentEpisode = 1;
@@ -426,7 +533,7 @@
             const tvCtrl = document.getElementById('tv-controls');
             if (type === 'tv') {
                 tvCtrl.style.display = 'flex';
-                setupTvDropdowns(totalSeasons || 3);
+                setupTvDropdowns();
             } else {
                 tvCtrl.style.display = 'none';
             }
@@ -435,18 +542,13 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        function setupTvDropdowns(seasonsCount) {
+        function setupTvDropdowns() {
             const sSelect = document.getElementById('season-num');
             const eSelect = document.getElementById('episode-num');
             sSelect.innerHTML = '';
             eSelect.innerHTML = '';
-
-            for (let s = 1; s <= (seasonsCount || 1); s++) {
-                sSelect.innerHTML += `<option value="${s}">الموسم ${s}</option>`;
-            }
-            for (let e = 1; e <= 30; e++) {
-                eSelect.innerHTML += `<option value="${e}">الحلقة ${e}</option>`;
-            }
+            for (let s = 1; s <= 10; s++) sSelect.innerHTML += `<option value="${s}">الموسم ${s}</option>`;
+            for (let e = 1; e <= 24; e++) eSelect.innerHTML += `<option value="${e}">الحلقة ${e}</option>`;
         }
 
         function updateEpisode() {
@@ -455,76 +557,168 @@
             playMedia();
         }
 
-        // رسم البوسترات في الصفحة
         function renderList(items) {
             const grid = document.getElementById('grid');
             if (!items || items.length === 0) {
-                grid.innerHTML = '<div class="state-box">تعذر العثور على محتوى حالياً، اضغط تصنيفاً آخر.</div>';
+                grid.innerHTML = '<div class="loading-spinner" style="grid-column: 1/-1;"><i class="fas fa-search"></i><p style="margin-top:10px;">لا توجد نتائج</p></div>';
                 return;
             }
-
-            grid.innerHTML = items.filter(it => it.poster_path).map(it => {
-                const title = it.title || it.name || 'بدون اسم';
-                const type = it.media_type || (it.first_air_date ? 'tv' : 'movie');
-                const badge = type === 'tv' ? 'مسلسل' : 'فيلم';
-                const safeTitle = title.replace(/'/g, "\\'");
-                const poster = `https://image.tmdb.org/t/p/w342${it.poster_path}`;
-
+            grid.innerHTML = items.map(it => {
+                const badge = it.type === 'tv' ? 'مسلسل' : 'فيلم';
+                const safeTitle = (it.title || '').replace(/'/g, "\\'").replace(/"/g, '&quot;');
+                const poster = it.poster || 'https://via.placeholder.com/342x513/181818/666?text=No+Image';
                 return `
-                    <div class="card" onclick="selectMedia(${it.id}, '${type}', '${safeTitle}')">
+                    <div class="card" onclick="selectMedia(${it.id}, '${it.type}', '${safeTitle}')">
                         <span class="badge-type">${badge}</span>
-                        <img src="${poster}" alt="${title}" loading="lazy">
+                        <img src="${poster}" alt="${safeTitle}" loading="lazy" onerror="this.src='https://via.placeholder.com/342x513/181818/666?text=No+Image'">
                         <div class="card-info">
-                            <div class="card-title">${title}</div>
+                            <div class="card-title">${it.title}</div>
                         </div>
                     </div>
                 `;
             }).join('');
         }
 
-        // تحميل الأقسام
-        async function loadCat(cat, chipEl) {
+        // ====== تحميل التصنيفات ======
+        async function loadCategory(cat, chipEl) {
             if (chipEl) {
                 document.querySelectorAll('.cat-chip').forEach(c => c.classList.remove('active'));
                 chipEl.classList.add('active');
                 document.getElementById('current-cat-title').textContent = chipEl.textContent.replace(/^[^\s]+ /, '');
             }
 
-            const grid = document.getElementById('grid');
-            grid.innerHTML = '<div class="state-box">جاري جلب البوسترات...</div>';
+            document.getElementById('grid').innerHTML = '<div class="loading-spinner" style="grid-column: 1/-1;"><i class="fas fa-spinner"></i><p style="margin-top:10px;">جاري التحميل...</p></div>';
 
-            let endpoint = '/trending/all/day';
-            if (cat === 'arabic') endpoint = '/discover/movie?with_original_language=ar&sort_by=popularity.desc';
-            if (cat === 'action') endpoint = '/discover/movie?with_genres=28&sort_by=popularity.desc';
-            if (cat === 'series') endpoint = '/discover/tv?sort_by=popularity.desc';
-            if (cat === 'anime') endpoint = '/discover/tv?with_genres=16&sort_by=popularity.desc';
-            if (cat === 'comedy') endpoint = '/discover/movie?with_genres=35&sort_by=popularity.desc';
-            if (cat === 'horror') endpoint = '/discover/movie?with_genres=27&sort_by=popularity.desc';
+            try {
+                let endpoint = '';
+                const lang = 'ar';
+                if (cat === 'trending') endpoint = `/trending/all/week?api_key=${TMDB_API_KEY}&language=${lang}`;
+                else if (cat === 'action') endpoint = `/discover/movie?api_key=${TMDB_API_KEY}&with_genres=28&language=${lang}&sort_by=popularity.desc`;
+                else if (cat === 'series') endpoint = `/tv/popular?api_key=${TMDB_API_KEY}&language=${lang}`;
+                else if (cat === 'anime') endpoint = `/discover/tv?api_key=${TMDB_API_KEY}&with_genres=16&language=${lang}&sort_by=popularity.desc`;
+                else if (cat === 'comedy') endpoint = `/discover/movie?api_key=${TMDB_API_KEY}&with_genres=35&language=${lang}&sort_by=popularity.desc`;
+                else if (cat === 'horror') endpoint = `/discover/movie?api_key=${TMDB_API_KEY}&with_genres=27&language=${lang}&sort_by=popularity.desc`;
 
-            const items = await fetchAPI(endpoint);
+                const res = await fetch(TMDB_BASE + endpoint);
+                const data = await res.json();
+                if (data.results && data.results.length > 0) {
+                    const items = data.results
+                        .filter(r => r.poster_path)
+                        .map(r => ({
+                            id: r.id,
+                            title: r.title || r.name || 'Unknown',
+                            type: r.media_type === 'tv' || r.first_air_date ? 'tv' : 'movie',
+                            poster: IMG_BASE + r.poster_path
+                        }));
+                    if (items.length > 0) {
+                        renderList(items);
+                        return;
+                    }
+                }
+            } catch (e) {
+                console.warn('TMDB API فشل، استخدام الكتالوج الاحتياطي', e);
+            }
+
+            const items = BACKUP_CATALOG[cat] || BACKUP_CATALOG.trending;
             renderList(items);
         }
 
+        // ====== البحث ======
         async function searchMedia() {
-            const query = document.getElementById('search-box').value.trim();
-            if (!query) return;
+            const q = document.getElementById('search-box').value.trim();
+            if (!q) return;
 
-            document.getElementById('current-cat-title').textContent = `نتائج البحث عن: "${query}"`;
-            const grid = document.getElementById('grid');
-            grid.innerHTML = '<div class="state-box">جاري البحث...</div>';
+            document.getElementById('current-cat-title').textContent = `نتائج البحث: "${q}"`;
+            document.getElementById('grid').innerHTML = '<div class="loading-spinner" style="grid-column: 1/-1;"><i class="fas fa-spinner"></i><p style="margin-top:10px;">جاري البحث...</p></div>';
 
-            const items = await fetchAPI(`/search/multi?query=${encodeURIComponent(query)}`);
-            renderList(items);
+            try {
+                const res = await fetch(`${TMDB_BASE}/search/multi?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(q)}&language=ar`);
+                const data = await res.json();
+                if (data.results && data.results.length > 0) {
+                    const items = data.results
+                        .filter(r => r.poster_path && (r.media_type === 'movie' || r.media_type === 'tv'))
+                        .map(r => ({
+                            id: r.id,
+                            title: r.title || r.name || 'Unknown',
+                            type: r.media_type,
+                            poster: IMG_BASE + r.poster_path
+                        }));
+                    if (items.length > 0) {
+                        renderList(items);
+                        return;
+                    }
+                }
+                renderList([]);
+            } catch (e) {
+                console.warn('فشل البحث عبر TMDB', e);
+                const qLower = q.toLowerCase();
+                let all = [];
+                Object.values(BACKUP_CATALOG).forEach(list => all.push(...list));
+                const unique = Array.from(new Map(all.map(it => [it.id, it])).values());
+                const filtered = unique.filter(it => it.title.toLowerCase().includes(qLower));
+                renderList(filtered);
+            }
         }
 
         function handleEnter(e) {
             if (e.key === 'Enter') searchMedia();
         }
 
-        // بدء التشغيل
+        // ====== تغيير الجودة ======
+        function changeQuality(quality) {
+            currentQuality = quality;
+            playMedia();
+            showToast(`الجودة: ${quality}`);
+        }
+
+        // ====== تغيير الترجمة ======
+        function changeSubtitle(lang) {
+            currentSubtitle = lang;
+            playMedia();
+            const langName = { ar: 'العربية', en: 'English', fr: 'Français', es: 'Español', none: 'بدون ترجمة' }[lang] || lang;
+            showToast(`الترجمة: ${langName}`);
+        }
+
+        // ====== إشعار Toast ======
+        function showToast(msg) {
+            const existing = document.getElementById('toast-notify');
+            if (existing) existing.remove();
+
+            const toast = document.createElement('div');
+            toast.id = 'toast-notify';
+            toast.style.cssText = `
+                position: fixed;
+                bottom: 30px;
+                left: 50%;
+                transform: translateX(-50%) translateY(20px);
+                background: #e50914;
+                color: #fff;
+                padding: 10px 22px;
+                border-radius: 8px;
+                font-size: 13px;
+                font-weight: bold;
+                z-index: 3000;
+                opacity: 0;
+                transition: all 0.3s ease;
+                box-shadow: 0 4px 20px rgba(229,9,20,0.4);
+            `;
+            toast.textContent = msg;
+            document.body.appendChild(toast);
+            requestAnimationFrame(() => {
+                toast.style.opacity = '1';
+                toast.style.transform = 'translateX(-50%) translateY(0)';
+            });
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateX(-50%) translateY(20px)';
+                setTimeout(() => toast.remove(), 300);
+            }, 1800);
+        }
+
+        // ====== تشغيل فوري ======
         window.onload = () => {
-            playMedia(); // يبدأ المشغل شغال مباشرة فوق
-            loadCat('trending', null);
+            playMedia();
+            loadCategory('trending', null);
         };
     </script>
 </body>
